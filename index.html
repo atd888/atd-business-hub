@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ATD Business Hub | AT DERMYSHI LTD</title>
+<style>
+:root{--navy:#172b4d;--blue:#2f5f9f;--bg:#f4f6fa;--ink:#1c2430;--muted:#687386;--line:#e1e6ee;--white:#fff;--green:#18794e;--amber:#9a6700}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}
+header{background:var(--navy);color:#fff;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:19px;letter-spacing:.2px}.sub{color:#cbd7e8;font-size:12px;margin-top:2px}.demo{background:#f5c451;color:#382800;border-radius:20px;padding:5px 10px;font-size:11px;font-weight:800}
+.layout{display:grid;grid-template-columns:220px minmax(0,1fr);max-width:1400px;margin:auto;min-height:calc(100vh - 70px)}
+nav{background:#fff;border-right:1px solid var(--line);padding:18px 12px}
+nav button{display:flex;gap:10px;align-items:center;width:100%;padding:12px;border:0;background:transparent;text-align:left;border-radius:9px;color:#465267;font-size:14px;cursor:pointer;margin-bottom:4px}
+nav button.active,nav button:hover{background:#eaf0fa;color:var(--navy);font-weight:700}
+main{padding:24px;min-width:0}.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}h1{font-size:25px;margin:0}h2{font-size:17px;margin:0 0 14px}h3{font-size:15px;margin:0 0 6px}.muted{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:17px;min-width:0}.metric{font-size:25px;font-weight:800;margin-top:8px}.metriclabel{color:var(--muted);font-size:12px}.twocol{display:grid;grid-template-columns:1.2fr 1fr;gap:14px}.btn{border:0;border-radius:9px;background:var(--navy);color:#fff;padding:10px 14px;font-weight:700;cursor:pointer;font-size:13px}.btn.secondary{background:#e9eef6;color:var(--navy)}.btn.danger{background:#fff0ef;color:#a32d25}.btn.small{padding:7px 10px}.actions{display:flex;gap:7px;flex-wrap:wrap}.fieldgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}label{font-size:12px;color:#4e5a6d;font-weight:700}input,select,textarea{font:inherit;border:1px solid #cfd7e3;border-radius:8px;padding:10px;background:#fff;width:100%;min-width:0}textarea{min-height:82px;resize:vertical}.formbox{margin:14px 0}.hidden{display:none!important}.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:11px 9px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.4px}.pill{display:inline-block;border-radius:20px;padding:4px 8px;font-size:11px;font-weight:700;background:#edf1f7;color:#475467}.pill.green{background:#e6f5ec;color:var(--green)}.pill.amber{background:#fff3d6;color:var(--amber)}.empty{padding:22px;text-align:center;color:var(--muted)}.notice{background:#fff7df;border:1px solid #f0d990;color:#624c12;padding:12px 14px;border-radius:10px;font-size:12px;margin-bottom:18px}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}.photo-preview{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}.photo-preview img{width:100px;height:85px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px}.galleryitem{border:1px solid var(--line);padding:10px;border-radius:12px;background:#fff}.mobile-nav{display:none}
+footer{padding:18px 22px;color:var(--muted);font-size:11px;text-align:center}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.twocol{grid-template-columns:1fr}.layout{grid-template-columns:1fr}nav{display:flex;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:8px;gap:4px}nav button{white-space:nowrap;width:auto;margin:0;padding:10px}.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}main{padding:16px}}
+@media(max-width:520px){.grid{gap:8px}.card{padding:13px}.metric{font-size:21px}.fieldgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.gallery{grid-template-columns:1fr}h1{font-size:22px}}
+</style>
+</head>
+<body>
+<header><div><div class="brand">ATD BUSINESS HUB</div><div class="sub">Painting, decorating & refurbishment · Mob: 07557954457 · tdermyshi88@gmail.com</div><div class="sub">94 Lausanne Road, London N8 0HP · Company No. 16124001</div></div><span class="demo">LOCAL DEMO · NOT LIVE</span></header>
+<div class="layout">
+<nav id="nav">
+<button class="active" data-page="dashboard">▦ Dashboard</button>
+<button data-page="enquiries">✉ Customer enquiries</button>
+<button data-page="quotes">▤ Quotes & invoices</button>
+<button data-page="calendar">▦ Job calendar</button>
+<button data-page="expenses">£ Expenses & profit</button>
+<button data-page="gallery">▧ Project gallery</button>
+<button data-page="settings">⚙ Data & backup</button>
+</nav>
+<main>
+<div id="notice" class="notice"><strong>Prototype notice:</strong> Your entries are stored only in this browser on this device. This is not a secure multi-user system. Do not enter sensitive real customer data yet. Online payments, emailed documents and cloud photo storage are not connected.</div>
+<div class="topline"><div><h1 id="pageTitle">Dashboard</h1><div class="muted" id="pageSub">A simple overview of your jobs and money.</div></div><div class="actions"><button class="btn secondary" id="exportBtn">Export backup</button><button class="btn" id="quickAdd">+ Add enquiry</button></div></div>
+<section id="dashboard" class="page">
+<div class="grid">
+<div class="card"><div class="metriclabel">Open enquiries</div><div class="metric" id="mEnquiries">0</div></div>
+<div class="card"><div class="metriclabel">Quotes issued</div><div class="metric" id="mQuotes">0</div></div>
+<div class="card"><div class="metriclabel">Outstanding invoices</div><div class="metric" id="mOutstanding">£0</div></div>
+<div class="card"><div class="metriclabel">Recorded job profit*</div><div class="metric" id="mProfit">£0</div></div>
+</div>
+<div class="twocol">
+<div class="card"><div class="sectionhead"><h2>Upcoming jobs</h2><button class="btn secondary small" data-goto="calendar">Open calendar</button></div><div id="dashJobs"></div></div>
+<div class="card"><div class="sectionhead"><h2>Recent enquiries</h2><button class="btn secondary small" data-goto="enquiries">View all</button></div><div id="dashEnquiries"></div></div>
+</div>
+<p class="muted" style="margin-top:12px">*Profit is a simple estimate: quote value minus recorded expenses. It is not an accounting or tax calculation.</p>
+</section>
+<section id="enquiries" class="page hidden">
+<div class="sectionhead"><div><h2>Customer enquiries</h2><div class="muted">Record customer details, requested work and photos.</div></div><button class="btn" id="newEnquiry">+ New enquiry</button></div>
+<form id="enquiryForm" class="card formbox hidden">
+<h2 id="enquiryFormTitle">Add customer enquiry</h2><input type="hidden" id="enquiryId">
+<div class="fieldgrid">
+<div class="field"><label>Customer name *</label><input id="eName" required></div>
+<div class="field"><label>Phone</label><input id="ePhone" type="tel"></div>
+<div class="field"><label>Email</label><input id="eEmail" type="email"></div>
+<div class="field"><label>Preferred visit date</label><input id="eDate" type="date"></div>
+<div class="field full"><label>Property address *</label><input id="eAddress" required></div>
+<div class="field"><label>Service</label><select id="eService"><option>Painting & decorating</option><option>External painting</option><option>Bathroom refurbishment</option><option>Tiling</option><option>Carpentry</option><option>Plastering</option><option>General refurbishment</option><option>Other</option></select></div>
+<div class="field"><label>Status</label><select id="eStatus"><option>New</option><option>Contacted</option><option>Site visit booked</option><option>Quote required</option><option>Won</option><option>Lost</option></select></div>
+<div class="field full"><label>Job description</label><textarea id="eDescription" placeholder="Rooms, scope of work, access, materials..."></textarea></div>
+<div class="field full"><label>Photos (stored locally in this browser only)</label><input id="ePhotos" type="file" accept="image/*" multiple><div id="ePhotoPreview" class="photo-preview"></div></div>
+</div><div class="actions" style="margin-top:14px"><button class="btn" type="submit">Save enquiry</button><button class="btn secondary" type="button" id="cancelEnquiry">Cancel</button></div>
+</form>
+<div class="card"><div class="field" style="max-width:320px;margin-bottom:14px"><label>Search enquiries</label><input id="enquirySearch" placeholder="Name, address or service"></div><div id="enquiryTable"></div></div>
+</section>
+<section id="quotes" class="page hidden">
+<div class="sectionhead"><div><h2>Quotes & invoices</h2><div class="muted">Create estimates, calculate deposits and track balances.</div></div><button class="btn" id="newQuote">+ New quote</button></div>
+<form id="quoteForm" class="card formbox hidden">
+<h2>Create quote / invoice</h2><input type="hidden" id="quoteId">
+<div class="fieldgrid">
+<div class="field"><label>Customer *</label><input id="qCustomer" required></div>
+<div class="field"><label>Job / reference</label><input id="qJob" placeholder="e.g. Interior painting"></div>
+<div class="field"><label>Document type</label><select id="qType"><option>Quotation</option><option>Invoice</option></select></div>
+<div class="field"><label>Status</label><select id="qStatus"><option>Draft</option><option>Sent</option><option>Approved</option><option>Part paid</option><option>Paid</option><option>Cancelled</option></select></div>
+<div class="field"><label>Total amount (£) *</label><input id="qTotal" type="number" min="0" step="0.01" required></div>
+<div class="field"><label>Deposit percentage (%)</label><input id="qDeposit" type="number" min="0" max="100" step="1" value="30"></div>
+<div class="field"><label>During-work payment (%)</label><input id="qMidPercent" type="number" min="0" max="100" step="1" value="40"></div>
+<div class="field"><label>Amount paid so far (£)</label><input id="qPaid" type="number" min="0" step="0.01" value="0"></div>
+<div class="field"><label>Due date</label><input id="qDue" type="date"></div>
+<div class="field full"><label>Scope / notes</label><textarea id="qNotes" placeholder="Work included, exclusions, payment stages..."></textarea></div>
+</div><div id="quoteCalc" class="notice" style="margin-top:12px"></div>
+<div class="actions"><button class="btn" type="submit">Save document</button><button class="btn secondary" type="button" id="cancelQuote">Cancel</button></div>
+</form>
+<div class="card"><div id="quoteTable"></div></div>
+</section>
+<section id="calendar" class="page hidden">
+<div class="sectionhead"><div><h2>Job calendar</h2><div class="muted">Jobs and site visits recorded against enquiries.</div></div><button class="btn" id="newCalendarItem">+ Add calendar item</button></div>
+<form id="calendarForm" class="card formbox hidden">
+<div class="fieldgrid">
+<div class="field"><label>Job / event *</label><input id="cTitle" required></div>
+<div class="field"><label>Date *</label><input id="cDate" type="date" required></div>
+<div class="field"><label>Customer</label><input id="cCustomer"></div>
+<div class="field"><label>Type</label><select id="cType"><option>Job</option><option>Site visit</option><option>Follow-up</option><option>Other</option></select></div>
+<div class="field full"><label>Address / notes</label><input id="cNotes"></div>
+</div><div class="actions" style="margin-top:12px"><button class="btn">Save calendar item</button><button class="btn secondary" type="button" id="cancelCalendar">Cancel</button></div>
+</form><div class="card"><div id="calendarTable"></div></div>
+</section>
+<section id="expenses" class="page hidden">
+<div class="sectionhead"><div><h2>Expenses & profit</h2><div class="muted">Track costs against a job and estimate margins.</div></div><button class="btn" id="newExpense">+ Add expense</button></div>
+<form id="expenseForm" class="card formbox hidden">
+<div class="fieldgrid">
+<div class="field"><label>Description *</label><input id="xDescription" required></div>
+<div class="field"><label>Amount (£) *</label><input id="xAmount" type="number" min="0" step="0.01" required></div>
+<div class="field"><label>Date</label><input id="xDate" type="date"></div>
+<div class="field"><label>Category</label><select id="xCategory"><option>Materials</option><option>Labour</option><option>Travel</option><option>Tools & equipment</option><option>Waste removal</option><option>Subcontractor</option><option>Other</option></select></div>
+<div class="field full"><label>Related job / customer</label><input id="xJob"></div>
+</div><div class="actions" style="margin-top:12px"><button class="btn">Save expense</button><button class="btn secondary" type="button" id="cancelExpense">Cancel</button></div>
+</form>
+<div class="grid" style="grid-template-columns:repeat(3,minmax(0,1fr))"><div class="card"><div class="metriclabel">Document value</div><div class="metric" id="xRevenue">£0</div></div><div class="card"><div class="metriclabel">Recorded expenses</div><div class="metric" id="xCosts">£0</div></div><div class="card"><div class="metriclabel">Estimated difference</div><div class="metric" id="xProfit">£0</div></div></div>
+<div class="card"><div id="expenseTable"></div></div>
+</section>
+<section id="gallery" class="page hidden">
+<div class="sectionhead"><div><h2>Before-and-after gallery</h2><div class="muted">Use sample images to test layout. Public publishing is not connected.</div></div><button class="btn" id="newGallery">+ Add photos</button></div>
+<form id="galleryForm" class="card formbox hidden"><div class="fieldgrid"><div class="field"><label>Project title *</label><input id="gTitle" required></div><div class="field"><label>Service</label><input id="gService" placeholder="e.g. External painting"></div><div class="field"><label>Before photo</label><input id="gBefore" type="file" accept="image/*"></div><div class="field"><label>After photo</label><input id="gAfter" type="file" accept="image/*"></div><div class="field full"><label><input id="gApproved" type="checkbox" style="width:auto"> Approved for public portfolio (prototype flag only)</label></div></div><div class="actions" style="margin-top:12px"><button class="btn">Save project</button><button class="btn secondary" type="button" id="cancelGallery">Cancel</button></div></form><div id="galleryGrid" class="gallery"></div>
+</section>
+<section id="settings" class="page hidden">
+<div class="card"><h2>Data & backup</h2><p class="muted">This prototype saves information in browser storage on this device. It does not sync to another device or protect data with an account login.</p><div class="actions"><button class="btn" id="exportBtn2">Download JSON backup</button><label class="btn secondary" style="cursor:pointer">Import backup <input type="file" id="importFile" accept=".json,application/json" hidden></label><button class="btn danger" id="clearData">Clear all local data</button></div><p class="muted" style="margin-top:14px">For real business use, next steps are a secure database, authenticated admin accounts, private file storage, and a tested hosted payment provider. Do not store card numbers in this app.</p></div>
+</section>
+</main>
+</div>
+<footer>AT DERMYSHI LTD · ATD Business Hub prototype · Local demo only · Not connected to live payments or cloud storage</footer>
+<script>
+const $=id=>document.getElementById(id);
+const keys={enquiries:'atd_enquiries_v1',quotes:'atd_quotes_v1',calendar:'atd_calendar_v1',expenses:'atd_expenses_v1',gallery:'atd_gallery_v1'};
+const read=k=>{try{return JSON.parse(localStorage.getItem(keys[k])||'[]')}catch{return []}};
+const write=(k,v)=>localStorage.setItem(keys[k],JSON.stringify(v));
+let state={enquiries:read('enquiries'),quotes:read('quotes'),calendar:read('calendar'),expenses:read('expenses'),gallery:read('gallery')};
+const money=n=>new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP'}).format(Number(n)||0);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const id=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+function persist(k){write(k,state[k]);renderAll()}
+function table(headers,rows,empty='Nothing here yet.'){if(!rows.length)return `<div class="empty">${empty}</div>`;return `<div class="tablewrap"><table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`}
+function statusPill(s){let cls=['Paid','Approved','Won'].includes(s)?'green':['New','Sent','Site visit booked','Part paid'].includes(s)?'amber':'';return `<span class="pill ${cls}">${esc(s)}</span>`}
+function renderDashboard(){
+$('mEnquiries').textContent=state.enquiries.filter(x=>!['Won','Lost'].includes(x.status)).length;
+$('mQuotes').textContent=state.quotes.filter(x=>x.status!=='Cancelled').length;
+$('mOutstanding').textContent=money(state.quotes.reduce((a,x)=>a+Math.max(0,(+x.total||0)-(+x.paid||0)),0));
+$('mProfit').textContent=money(state.quotes.reduce((a,x)=>a+(+x.total||0),0)-state.expenses.reduce((a,x)=>a+(+x.amount||0),0));
+let jobs=state.calendar.filter(x=>x.date).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);
+$('dashJobs').innerHTML=jobs.length?jobs.map(x=>`<div style="padding:10px 0;border-bottom:1px solid var(--line)"><strong>${esc(x.title)}</strong><div class="muted">${esc(x.date)} · ${esc(x.customer||x.type||'')}</div></div>`).join(''):'<div class="empty">No jobs scheduled yet.</div>';
+let es=state.enquiries.slice(-5).reverse();
+$('dashEnquiries').innerHTML=es.length?es.map(x=>`<div style="padding:10px 0;border-bottom:1px solid var(--line)"><strong>${esc(x.name)}</strong><div class="muted">${esc(x.service)} · ${statusPill(x.status)}</div></div>`).join(''):'<div class="empty">No enquiries yet.</div>';
+}
+function renderEnquiries(){
+let q=($('enquirySearch').value||'').toLowerCase();
+let list=state.enquiries.filter(x=>[x.name,x.address,x.service,x.phone].join(' ').toLowerCase().includes(q)).slice().reverse();
+$('enquiryTable').innerHTML=table(['Customer / address','Service','Date','Status','Actions'],list.map(x=>`<tr><td><strong>${esc(x.name)}</strong><div class="muted">${esc(x.address)}</div><div class="muted">${esc(x.phone||'')} ${esc(x.email||'')}</div></td><td>${esc(x.service)}</td><td>${esc(x.date||'—')}</td><td>${statusPill(x.status)}</td><td><div class="actions"><button class="btn secondary small" onclick="editEnquiry('${x.id}')">Edit</button><button class="btn secondary small" onclick="makeQuote('${x.id}')">Quote</button><button class="btn danger small" onclick="deleteItem('enquiries','${x.id}')">Delete</button></div></td></tr>`));
+}
+function renderQuotes(){
+$('quoteTable').innerHTML=table(['Document','Customer / job','Total','Deposit (30% default)','During work (40% default)','Completion','Paid','Balance','Status','Actions'],state.quotes.slice().reverse().map(x=>{let total=+x.total||0,dep=Number.isFinite(+x.deposit)?+x.deposit:30,mid=Number.isFinite(+x.midPercent)?+x.midPercent:40,completion=100-dep-mid;return `<tr><td><strong>${esc(x.type)}</strong><div class="muted">${esc(x.due||'No due date')}</div></td><td>${esc(x.customer)}<div class="muted">${esc(x.job||'')}</div></td><td>${money(total)}</td><td>${money(total*dep/100)}<div class="muted">${dep}%</div></td><td>${money(total*mid/100)}<div class="muted">${mid}%</div></td><td>${money(total*completion/100)}<div class="muted">${completion}%</div></td><td>${money(x.paid)}</td><td><strong>${money(Math.max(0,total-(+x.paid||0)))}</strong></td><td>${statusPill(x.status)}</td><td><div class="actions"><button class="btn secondary small" onclick="printQuote('${x.id}')">Print</button><button class="btn secondary small" onclick="editQuote('${x.id}')">Edit</button><button class="btn danger small" onclick="deleteItem('quotes','${x.id}')">Delete</button></div></td></tr>`}));
+}
+function renderCalendar(){$('calendarTable').innerHTML=table(['Date','Event','Customer','Type','Notes','Actions'],state.calendar.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(x=>`<tr><td>${esc(x.date)}</td><td><strong>${esc(x.title)}</strong></td><td>${esc(x.customer||'—')}</td><td>${esc(x.type)}</td><td>${esc(x.notes||'')}</td><td><button class="btn danger small" onclick="deleteItem('calendar','${x.id}')">Delete</button></td></tr>`))}
+function renderExpenses(){
+let revenue=state.quotes.reduce((a,x)=>a+(+x.total||0),0),costs=state.expenses.reduce((a,x)=>a+(+x.amount||0),0);
+$('xRevenue').textContent=money(revenue);$('xCosts').textContent=money(costs);$('xProfit').textContent=money(revenue-costs);
+$('expenseTable').innerHTML=table(['Date','Description','Category','Job','Amount','Actions'],state.expenses.slice().reverse().map(x=>`<tr><td>${esc(x.date||'—')}</td><td>${esc(x.description)}</td><td>${esc(x.category)}</td><td>${esc(x.job||'—')}</td><td>${money(x.amount)}</td><td><button class="btn danger small" onclick="deleteItem('expenses','${x.id}')">Delete</button></td></tr>`));
+}
+function renderGallery(){$('galleryGrid').innerHTML=state.gallery.length?state.gallery.slice().reverse().map(x=>`<div class="galleryitem">${x.before?`<div class="muted">Before</div><img src="${x.before}" alt="Before project">`:''}${x.after?`<div class="muted">After</div><img src="${x.after}" alt="After project">`:''}<h3>${esc(x.title)}</h3><div class="muted">${esc(x.service||'')}</div><p>${x.approved?'<span class="pill green">Approved flag</span>':'<span class="pill amber">Private / not approved</span>'}</p><button class="btn danger small" onclick="deleteItem('gallery','${x.id}')">Delete</button></div>`).join(''):'<div class="empty card" style="grid-column:1/-1">No projects yet. Add sample photos to preview your portfolio.</div>'}
+function renderAll(){renderDashboard();renderEnquiries();renderQuotes();renderCalendar();renderExpenses();renderGallery()}
+function showPage(p){document.querySelectorAll('.page').forEach(s=>s.classList.toggle('hidden',s.id!==p));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===p));let names={dashboard:['Dashboard','A simple overview of your jobs and money.'],enquiries:['Customer enquiries','Capture and manage incoming work.'],quotes:['Quotes & invoices','Prepare documents and track balances.'],calendar:['Job calendar','Plan visits, jobs and follow-ups.'],expenses:['Expenses & profit','Track job costs and estimated profit.'],gallery:['Project gallery','Organise before-and-after project photos.'],settings:['Data & backup','Manage local demo data and exports.']};$('pageTitle').textContent=names[p][0];$('pageSub').textContent=names[p][1];$('quickAdd').textContent=p==='enquiries'?'+ New enquiry':'+ Add enquiry';}
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.goto)));
+$('quickAdd').onclick=$('newEnquiry').onclick=()=>{showPage('enquiries');$('enquiryForm').classList.remove('hidden');$('enquiryForm').reset();$('enquiryId').value='';$('enquiryFormTitle').textContent='Add customer enquiry';$('ePhotoPreview').innerHTML=''};
+$('cancelEnquiry').onclick=()=>$('enquiryForm').classList.add('hidden');
+$('enquirySearch').addEventListener('input',renderEnquiries);
+$('ePhotos').addEventListener('change',async()=>{let files=[...$('ePhotos').files].slice(0,6);$('ePhotoPreview').innerHTML='';for(let f of files){let img=document.createElement('img');img.alt=f.name;img.src=await compressImage(f);$('ePhotoPreview').appendChild(img)}});
+function compressImage(file){return new Promise(resolve=>{let r=new FileReader();r.onload=()=>{let im=new Image();im.onload=()=>{let c=document.createElement('canvas'),scale=Math.min(1,900/im.width,900/im.height);c.width=Math.round(im.width*scale);c.height=Math.round(im.height*scale);c.getContext('2d').drawImage(im,0,0,c.width,c.height);resolve(c.toDataURL('image/jpeg',.68))};im.onerror=()=>resolve(r.result);im.src=r.result};r.onerror=()=>resolve('');r.readAsDataURL(file)})}
+$('enquiryForm').onsubmit=async e=>{e.preventDefault();let old=state.enquiries.find(x=>x.id===$('enquiryId').value);let photos=old?.photos||[];for(let f of [...$('ePhotos').files].slice(0,6)){let src=await compressImage(f);if(src)photos.push(src)}let item={id:$('enquiryId').value||id(),name:$('eName').value.trim(),phone:$('ePhone').value,email:$('eEmail').value,date:$('eDate').value,address:$('eAddress').value.trim(),service:$('eService').value,status:$('eStatus').value,description:$('eDescription').value,photos};let i=state.enquiries.findIndex(x=>x.id===item.id);if(i>=0)state.enquiries[i]=item;else state.enquiries.push(item);persist('enquiries');$('enquiryForm').classList.add('hidden');e.target.reset();$('ePhotoPreview').innerHTML=''};
+window.editEnquiry=idv=>{let x=state.enquiries.find(x=>x.id===idv);if(!x)return;showPage('enquiries');$('enquiryForm').classList.remove('hidden');$('enquiryFormTitle').textContent='Edit customer enquiry';$('enquiryId').value=x.id;$('eName').value=x.name;$('ePhone').value=x.phone||'';$('eEmail').value=x.email||'';$('eDate').value=x.date||'';$('eAddress').value=x.address;$('eService').value=x.service;$('eStatus').value=x.status;$('eDescription').value=x.description||'';$('ePhotoPreview').innerHTML=(x.photos||[]).map(src=>`<img src="${src}" alt="Enquiry photo">`).join('')};
+window.makeQuote=idv=>{let x=state.enquiries.find(x=>x.id===idv);showPage('quotes');$('quoteForm').classList.remove('hidden');$('quoteForm').reset();$('quoteId').value='';$('qCustomer').value=x?.name||'';$('qJob').value=x?.service||'';updateQuoteCalc()};
+$('newQuote').onclick=()=>{$('quoteForm').classList.remove('hidden');$('quoteForm').reset();$('quoteId').value='';$('qDeposit').value=30;$('qMidPercent').value=40;$('qPaid').value=0;updateQuoteCalc()};
+$('cancelQuote').onclick=()=>$('quoteForm').classList.add('hidden');
+function updateQuoteCalc(){
+let total=+$('qTotal').value||0;
+let dep=Math.max(0,Math.min(100,+$('qDeposit').value||0));
+let mid=Math.max(0,Math.min(100,+$('qMidPercent').value||0));
+let completion=Math.max(0,100-dep-mid);
+let paid=+$('qPaid').value||0;
+let warning=dep+mid>100?'<br><strong style="color:#a32d25">Warning: deposit + during-work percentages exceed 100%. Adjust them before saving.</strong>':'';
+$('quoteCalc').innerHTML=`<strong>Payment stages</strong><br>Deposit (${dep}%): <strong>${money(total*dep/100)}</strong><br>During work (${mid}%): <strong>${money(total*mid/100)}</strong><br>On completion (${completion}%): <strong>${money(total*completion/100)}</strong><br>Balance after recorded payments: <strong>${money(Math.max(0,total-paid))}</strong>${warning}`;
+}
+['qTotal','qDeposit','qMidPercent','qPaid'].forEach(idv=>$(idv).addEventListener('input',updateQuoteCalc));
+$('quoteForm').onsubmit=e=>{e.preventDefault();let item={id:$('quoteId').value||id(),customer:$('qCustomer').value.trim(),job:$('qJob').value,type:$('qType').value,status:$('qStatus').value,total:+$('qTotal').value,deposit:+$('qDeposit').value||0,midPercent:+$('qMidPercent').value||0,paid:+$('qPaid').value||0,due:$('qDue').value,notes:$('qNotes').value};let i=state.quotes.findIndex(x=>x.id===item.id);if(i>=0)state.quotes[i]=item;else state.quotes.push(item);persist('quotes');$('quoteForm').classList.add('hidden');e.target.reset();$('qDeposit').value=30;$('qMidPercent').value=40;$('qPaid').value=0};
+window.editQuote=idv=>{let x=state.quotes.find(x=>x.id===idv);if(!x)return;showPage('quotes');$('quoteForm').classList.remove('hidden');for(let [key,val] of Object.entries({quoteId:x.id,qCustomer:x.customer,qJob:x.job,qType:x.type,qStatus:x.status,qTotal:x.total,qDeposit:x.deposit??30,qMidPercent:x.midPercent??40,qPaid:x.paid,qDue:x.due,qNotes:x.notes}))$(key).value=val??'';updateQuoteCalc()};
+window.printQuote=idv=>{let x=state.quotes.find(x=>x.id===idv);if(!x)return;let w=window.open('','_blank');if(!w){alert('Please allow pop-ups to print this document.');return}w.document.write(`<html><head><title>${esc(x.type)} - AT DERMYSHI LTD</title><style>body{font:14px Arial;margin:45px;color:#222}h1{color:#172b4d}table{width:100%;border-collapse:collapse;margin-top:25px}td{padding:10px;border-bottom:1px solid #ddd}.total{font-size:22px;font-weight:bold}</style></head><body><h1>AT DERMYSHI LTD</h1><p>Painting, decorating & refurbishment<br>Mobile: 07557954457<br>Email: tdermyshi88@gmail.com<br>94 Lausanne Road, London N8 0HP<br>Company Number: 16124001</p><hr><h2>${esc(x.type)}</h2><p><b>Customer:</b> ${esc(x.customer)}<br><b>Job:</b> ${esc(x.job||'—')}<br><b>Reference:</b> ${esc(x.id)}<br><b>Due date:</b> ${esc(x.due||'—')}</p><p>${esc(x.notes||'')}</p><table><tr><td>Job total</td><td style="text-align:right">${money(x.total)}</td></tr><tr><td>Deposit (${esc(x.deposit??30)}%)</td><td style="text-align:right">${money(x.total*(x.deposit??30)/100)}</td></tr><tr><td>During work (${esc(x.midPercent??40)}%)</td><td style="text-align:right">${money(x.total*(x.midPercent??40)/100)}</td></tr><tr><td>On completion (${100-(x.deposit??30)-(x.midPercent??40)}%)</td><td style="text-align:right">${money(x.total*(100-(x.deposit??30)-(x.midPercent??40))/100)}</td></tr><tr><td>Amount paid</td><td style="text-align:right">${money(x.paid)}</td></tr><tr><td><b>Balance</b></td><td style="text-align:right" class="total">${money(Math.max(0,x.total-x.paid))}</td></tr></table><p style="margin-top:40px;color:#666">Prototype document. Review details before sending to a customer.</p><script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close()};
+$('newCalendarItem').onclick=()=>{$('calendarForm').classList.remove('hidden');$('calendarForm').reset()};
+$('cancelCalendar').onclick=()=>$('calendarForm').classList.add('hidden');
+$('calendarForm').onsubmit=e=>{e.preventDefault();state.calendar.push({id:id(),title:$('cTitle').value,date:$('cDate').value,customer:$('cCustomer').value,type:$('cType').value,notes:$('cNotes').value});persist('calendar');$('calendarForm').classList.add('hidden');e.target.reset()};
+$('newExpense').onclick=()=>{$('expenseForm').classList.remove('hidden');$('expenseForm').reset();$('xDate').value=new Date().toISOString().slice(0,10)};
+$('cancelExpense').onclick=()=>$('expenseForm').classList.add('hidden');
+$('expenseForm').onsubmit=e=>{e.preventDefault();state.expenses.push({id:id(),description:$('xDescription').value,amount:+$('xAmount').value,date:$('xDate').value,category:$('xCategory').value,job:$('xJob').value});persist('expenses');$('expenseForm').classList.add('hidden');e.target.reset()};
+$('newGallery').onclick=()=>{$('galleryForm').classList.remove('hidden');$('galleryForm').reset()};
+$('cancelGallery').onclick=()=>$('galleryForm').classList.add('hidden');
+$('galleryForm').onsubmit=async e=>{e.preventDefault();let b=$('gBefore').files[0],a=$('gAfter').files[0];state.gallery.push({id:id(),title:$('gTitle').value,service:$('gService').value,before:b?await compressImage(b):'',after:a?await compressImage(a):'',approved:$('gApproved').checked});try{persist('gallery');$('galleryForm').classList.add('hidden');e.target.reset()}catch(err){alert('Could not save images. Try smaller photos or fewer images; browser storage is limited.')}};
+window.deleteItem=(kind,idv)=>{if(confirm('Delete this item from this browser?')){state[kind]=state[kind].filter(x=>x.id!==idv);persist(kind)}};
+function exportData(){let blob=new Blob([JSON.stringify({app:'ATD Business Hub',version:1,exportedAt:new Date().toISOString(),...state},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='atd-business-hub-backup.json';a.click();URL.revokeObjectURL(url)}
+$('exportBtn').onclick=$('exportBtn2').onclick=exportData;
+$('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let d=JSON.parse(await f.text());for(let k of Object.keys(keys))if(Array.isArray(d[k]))state[k]=d[k];for(let k of Object.keys(keys))write(k,state[k]);renderAll();alert('Backup imported.')}catch{alert('That file could not be read as an ATD Business Hub backup.')}e.target.value=''};
+$('clearData').onclick=()=>{if(confirm('This permanently clears all ATD Business Hub data stored in this browser. Export a backup first if needed.')){for(let k of Object.keys(keys)){state[k]=[];localStorage.removeItem(keys[k])}renderAll()}};
+renderAll();
+</script>
+</body></html>
