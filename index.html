@@ -15,13 +15,39 @@ nav button{display:flex;gap:10px;align-items:center;width:100%;padding:12px;bord
 nav button.active,nav button:hover{background:#eaf0fa;color:var(--navy);font-weight:700}
 main{padding:24px;min-width:0}.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}h1{font-size:25px;margin:0}h2{font-size:17px;margin:0 0 14px}h3{font-size:15px;margin:0 0 6px}.muted{color:var(--muted);font-size:13px}
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:17px;min-width:0}.metric{font-size:25px;font-weight:800;margin-top:8px}.metriclabel{color:var(--muted);font-size:12px}.twocol{display:grid;grid-template-columns:1.2fr 1fr;gap:14px}.btn{border:0;border-radius:9px;background:var(--navy);color:#fff;padding:10px 14px;font-weight:700;cursor:pointer;font-size:13px}.btn.secondary{background:#e9eef6;color:var(--navy)}.btn.danger{background:#fff0ef;color:#a32d25}.btn.small{padding:7px 10px}.actions{display:flex;gap:7px;flex-wrap:wrap}.fieldgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}label{font-size:12px;color:#4e5a6d;font-weight:700}input,select,textarea{font:inherit;border:1px solid #cfd7e3;border-radius:8px;padding:10px;background:#fff;width:100%;min-width:0}textarea{min-height:82px;resize:vertical}.formbox{margin:14px 0}.hidden{display:none!important}.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:11px 9px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.4px}.pill{display:inline-block;border-radius:20px;padding:4px 8px;font-size:11px;font-weight:700;background:#edf1f7;color:#475467}.pill.green{background:#e6f5ec;color:var(--green)}.pill.amber{background:#fff3d6;color:var(--amber)}.empty{padding:22px;text-align:center;color:var(--muted)}.notice{background:#fff7df;border:1px solid #f0d990;color:#624c12;padding:12px 14px;border-radius:10px;font-size:12px;margin-bottom:18px}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}.photo-preview{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}.photo-preview img{width:100px;height:85px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px}.galleryitem{border:1px solid var(--line);padding:10px;border-radius:12px;background:#fff}.mobile-nav{display:none}
-footer{padding:18px 22px;color:var(--muted);font-size:11px;text-align:center}
+footer{padding:18px 22px;color:var(--muted);font-size:11px;text-align:center}hr{border:0;border-top:1px solid var(--line)}
 @media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.twocol{grid-template-columns:1fr}.layout{grid-template-columns:1fr}nav{display:flex;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:8px;gap:4px}nav button{white-space:nowrap;width:auto;margin:0;padding:10px}.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}main{padding:16px}}
 @media(max-width:520px){.grid{gap:8px}.card{padding:13px}.metric{font-size:21px}.fieldgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.gallery{grid-template-columns:1fr}h1{font-size:22px}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-<header><div><div class="brand">ATD BUSINESS HUB</div><div class="sub">Painting, decorating & refurbishment · Mob: 07557954457 · tdermyshi88@gmail.com</div><div class="sub">94 Lausanne Road, London N8 0HP · Company No. 16124001</div></div><span class="demo">LOCAL DEMO · NOT LIVE</span></header>
+
+<section id="authGate" style="max-width:680px;margin:32px auto;padding:20px">
+  <div class="card">
+    <h1 style="margin-bottom:8px">ATD Business Hub — Cloud setup</h1>
+    <p class="muted">Connect this app to your Supabase project. Your Project URL and publishable key are intended for browser use; never enter a secret/service-role key here.</p>
+    <div class="fieldgrid" style="margin:18px 0">
+      <div class="field full"><label>Supabase Project / API URL</label><input id="sbUrl" placeholder="https://your-project.supabase.co" autocomplete="url"></div>
+      <div class="field full"><label>Supabase publishable key</label><input id="sbKey" placeholder="sb_publishable_..." autocomplete="off"></div>
+    </div>
+    <div class="actions"><button class="btn" id="saveConnect">Save connection</button><button class="btn secondary" id="testConnect">Check connection</button></div>
+    <div id="connectStatus" class="muted" style="margin-top:10px"></div>
+    <hr style="border:0;border-top:1px solid var(--line);margin:22px 0">
+    <h2>Sign in or create your account</h2>
+    <p class="muted">Use the same account on your Mac and iPhone to access your shared records.</p>
+    <div class="fieldgrid">
+      <div class="field full"><label>Email</label><input id="authEmail" type="email" autocomplete="email" required></div>
+      <div class="field full"><label>Password (at least 6 characters)</label><input id="authPassword" type="password" autocomplete="current-password" required minlength="6"></div>
+    </div>
+    <div class="actions" style="margin-top:12px"><button class="btn" id="signInBtn">Sign in</button><button class="btn secondary" id="signUpBtn">Create account</button></div>
+    <div id="authStatus" class="muted" style="margin-top:10px"></div>
+  </div>
+  <p class="muted" style="text-align:center">Cloud sync is not enabled until you sign in. Do not use real customer data until you have tested the setup and reviewed your privacy/security requirements.</p>
+</section>
+
+<div id="appShell" class="hidden">
+<header><div><div class="brand">ATD BUSINESS HUB</div><div class="sub">Painting, decorating & refurbishment · Mob: 07557954457 · tdermyshi88@gmail.com</div><div class="sub">94 Lausanne Road, London N8 0HP · Company No. 16124001</div></div><span class="demo" id="cloudBadge">NOT CONNECTED</span></header>
 <div class="layout">
 <nav id="nav">
 <button class="active" data-page="dashboard">▦ Dashboard</button>
@@ -33,7 +59,7 @@ footer{padding:18px 22px;color:var(--muted);font-size:11px;text-align:center}
 <button data-page="settings">⚙ Data & backup</button>
 </nav>
 <main>
-<div id="notice" class="notice"><strong>Prototype notice:</strong> Your entries are stored only in this browser on this device. This is not a secure multi-user system. Do not enter sensitive real customer data yet. Online payments, emailed documents and cloud photo storage are not connected.</div>
+<div id="notice" class="notice"><strong>Cloud sync status:</strong> Sign in to sync business records. Photos remain local to each device for now. Online payments and emailed documents are not connected.</div>
 <div class="topline"><div><h1 id="pageTitle">Dashboard</h1><div class="muted" id="pageSub">A simple overview of your jobs and money.</div></div><div class="actions"><button class="btn secondary" id="exportBtn">Export backup</button><button class="btn" id="quickAdd">+ Add enquiry</button></div></div>
 <section id="dashboard" class="page">
 <div class="grid">
@@ -117,21 +143,36 @@ footer{padding:18px 22px;color:var(--muted);font-size:11px;text-align:center}
 <form id="galleryForm" class="card formbox hidden"><div class="fieldgrid"><div class="field"><label>Project title *</label><input id="gTitle" required></div><div class="field"><label>Service</label><input id="gService" placeholder="e.g. External painting"></div><div class="field"><label>Before photo</label><input id="gBefore" type="file" accept="image/*"></div><div class="field"><label>After photo</label><input id="gAfter" type="file" accept="image/*"></div><div class="field full"><label><input id="gApproved" type="checkbox" style="width:auto"> Approved for public portfolio (prototype flag only)</label></div></div><div class="actions" style="margin-top:12px"><button class="btn">Save project</button><button class="btn secondary" type="button" id="cancelGallery">Cancel</button></div></form><div id="galleryGrid" class="gallery"></div>
 </section>
 <section id="settings" class="page hidden">
-<div class="card"><h2>Data & backup</h2><p class="muted">This prototype saves information in browser storage on this device. It does not sync to another device or protect data with an account login.</p><div class="actions"><button class="btn" id="exportBtn2">Download JSON backup</button><label class="btn secondary" style="cursor:pointer">Import backup <input type="file" id="importFile" accept=".json,application/json" hidden></label><button class="btn danger" id="clearData">Clear all local data</button></div><p class="muted" style="margin-top:14px">For real business use, next steps are a secure database, authenticated admin accounts, private file storage, and a tested hosted payment provider. Do not store card numbers in this app.</p></div>
+<div class="card"><h2>Data & backup</h2><p class="muted">Your signed-in business records sync through Supabase. Photos are still stored only in each device's browser and do not sync yet.</p><div class="actions"><button class="btn" id="exportBtn2">Download JSON backup</button><label class="btn secondary" style="cursor:pointer">Import backup <input type="file" id="importFile" accept=".json,application/json" hidden></label><button class="btn danger" id="clearData">Clear all local data</button><button class="btn secondary" id="syncNow">Sync now</button><button class="btn danger" id="signOutBtn">Sign out</button></div><p id="syncStatus" class="muted" style="margin-top:14px">Cloud status: not connected.</p><p class="muted" style="margin-top:14px">Keep a regular backup. No live payments or automatic email delivery are connected. Do not store card numbers in this app.</p></div>
 </section>
 </main>
 </div>
-<footer>AT DERMYSHI LTD · ATD Business Hub prototype · Local demo only · Not connected to live payments or cloud storage</footer>
+<footer>AT DERMYSHI LTD · ATD Business Hub · Cloud records require sign-in · No live payments connected</footer>
+</div>
 <script>
 const $=id=>document.getElementById(id);
 const keys={enquiries:'atd_enquiries_v1',quotes:'atd_quotes_v1',calendar:'atd_calendar_v1',expenses:'atd_expenses_v1',gallery:'atd_gallery_v1'};
 const read=k=>{try{return JSON.parse(localStorage.getItem(keys[k])||'[]')}catch{return []}};
 const write=(k,v)=>localStorage.setItem(keys[k],JSON.stringify(v));
 let state={enquiries:read('enquiries'),quotes:read('quotes'),calendar:read('calendar'),expenses:read('expenses'),gallery:read('gallery')};
+let supabaseClient=null, currentUser=null, cloudReady=false, saveTimer=null, isLoadingCloud=false;
 const money=n=>new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP'}).format(Number(n)||0);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const id=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-function persist(k){write(k,state[k]);renderAll()}
+function persist(k){write(k,state[k]);renderAll();if(cloudReady&&!isLoadingCloud)scheduleCloudSave()}
+function localSnapshot(){return {enquiries:state.enquiries.map(x=>{let y={...x};delete y.photos;return y}),quotes:state.quotes,calendar:state.calendar,expenses:state.expenses,gallery:state.gallery.map(x=>{let y={...x};delete y.before;delete y.after;return y})}}
+function mergeRemote(remote){const local=state;state={enquiries:Array.isArray(remote.enquiries)?remote.enquiries:[],quotes:Array.isArray(remote.quotes)?remote.quotes:[],calendar:Array.isArray(remote.calendar)?remote.calendar:[],expenses:Array.isArray(remote.expenses)?remote.expenses:[],gallery:Array.isArray(remote.gallery)?remote.gallery:[]};state.enquiries=state.enquiries.map(x=>({...x,photos:local.enquiries.find(y=>y.id===x.id)?.photos||[]}));state.gallery=state.gallery.map(x=>({...x,before:local.gallery.find(y=>y.id===x.id)?.before||'',after:local.gallery.find(y=>y.id===x.id)?.after||''}));for(const k of Object.keys(keys))write(k,state[k]);renderAll()}
+function showConnectStatus(msg){$('connectStatus').textContent=msg}
+function showAuthStatus(msg){$('authStatus').textContent=msg}
+function showSyncStatus(msg){const el=$('syncStatus');if(el)el.textContent=msg}
+function setSignedInUI(signedIn){$('authGate').classList.toggle('hidden',signedIn);$('appShell').classList.toggle('hidden',!signedIn);$('cloudBadge').textContent=signedIn?'CLOUD CONNECTED':'NOT CONNECTED';$('cloudBadge').style.background=signedIn?'#b8f1ce':'#f5c451';$('cloudBadge').style.color=signedIn?'#104b2c':'#382800';$('notice').innerHTML=signedIn?'<strong>Cloud sync enabled:</strong> Business records sync for this signed-in account. Project photos remain local to each device and do not sync yet.':'<strong>Cloud sync status:</strong> Sign in to sync business records.'}
+function configValues(){return {url:localStorage.getItem('atd_sb_url')||'',key:localStorage.getItem('atd_sb_key')||''}}
+function initSupabase(){const c=configValues();if(!c.url||!c.key){supabaseClient=null;return false}try{supabaseClient=window.supabase.createClient(c.url.trim(),c.key.trim());return true}catch(e){supabaseClient=null;return false}}
+async function connectAndRestoreSession(){if(!initSupabase()){setSignedInUI(false);return}try{const {data:{session}}=await supabaseClient.auth.getSession();if(session)await activateSession(session.user);else setSignedInUI(false)}catch(e){showConnectStatus('Could not connect: '+e.message)}}
+async function activateSession(user){currentUser=user;setSignedInUI(true);showSyncStatus('Signed in as '+user.email+'. Loading cloud records…');try{const {data,error}=await supabaseClient.from('atd_business_data').select('data').eq('user_id',user.id).maybeSingle();if(error)throw error;if(data&&data.data){isLoadingCloud=true;mergeRemote(data.data);isLoadingCloud=false;cloudReady=true;showSyncStatus('Cloud records loaded. Changes will sync automatically. Photos remain local.')}else{const hasLocal=Object.values(state).some(a=>a.length);if(hasLocal){if(confirm('No cloud record exists yet. Upload the business records currently on this device to your account?')){cloudReady=true;await saveCloudNow()}else{cloudReady=false;showSyncStatus('Your existing local records were kept unchanged. Export a backup before choosing how to move them to the cloud.');return}}else{isLoadingCloud=true;state={enquiries:[],quotes:[],calendar:[],expenses:[],gallery:[]};for(const k of Object.keys(keys))write(k,state[k]);renderAll();isLoadingCloud=false;cloudReady=true;await saveCloudNow()}}}catch(e){cloudReady=false;showSyncStatus('Cloud load failed: '+e.message+' — check that the SQL table and policies were created.')} }
+function scheduleCloudSave(){clearTimeout(saveTimer);showSyncStatus('Changes saved on this device; cloud sync pending…');saveTimer=setTimeout(()=>saveCloudNow(),900)}
+async function saveCloudNow(){if(!supabaseClient||!currentUser||!cloudReady)return;try{const {error}=await supabaseClient.from('atd_business_data').upsert({user_id:currentUser.id,data:localSnapshot(),updated_at:new Date().toISOString()},{onConflict:'user_id'});if(error)throw error;showSyncStatus('Synced to cloud at '+new Date().toLocaleTimeString()+'. Photos remain local.')}catch(e){showSyncStatus('Cloud sync failed: '+e.message+' — your local browser copy is still saved.');console.error(e)}}
+
 function table(headers,rows,empty='Nothing here yet.'){if(!rows.length)return `<div class="empty">${empty}</div>`;return `<div class="tablewrap"><table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`}
 function statusPill(s){let cls=['Paid','Approved','Won'].includes(s)?'green':['New','Sent','Site visit booked','Part paid'].includes(s)?'amber':'';return `<span class="pill ${cls}">${esc(s)}</span>`}
 function renderDashboard(){
@@ -198,8 +239,15 @@ $('galleryForm').onsubmit=async e=>{e.preventDefault();let b=$('gBefore').files[
 window.deleteItem=(kind,idv)=>{if(confirm('Delete this item from this browser?')){state[kind]=state[kind].filter(x=>x.id!==idv);persist(kind)}};
 function exportData(){let blob=new Blob([JSON.stringify({app:'ATD Business Hub',version:1,exportedAt:new Date().toISOString(),...state},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='atd-business-hub-backup.json';a.click();URL.revokeObjectURL(url)}
 $('exportBtn').onclick=$('exportBtn2').onclick=exportData;
-$('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let d=JSON.parse(await f.text());for(let k of Object.keys(keys))if(Array.isArray(d[k]))state[k]=d[k];for(let k of Object.keys(keys))write(k,state[k]);renderAll();alert('Backup imported.')}catch{alert('That file could not be read as an ATD Business Hub backup.')}e.target.value=''};
-$('clearData').onclick=()=>{if(confirm('This permanently clears all ATD Business Hub data stored in this browser. Export a backup first if needed.')){for(let k of Object.keys(keys)){state[k]=[];localStorage.removeItem(keys[k])}renderAll()}};
-renderAll();
+$('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let d=JSON.parse(await f.text());for(let k of Object.keys(keys))if(Array.isArray(d[k]))state[k]=d[k];for(let k of Object.keys(keys))write(k,state[k]);renderAll();if(cloudReady)scheduleCloudSave();alert('Backup imported.')}catch{alert('That file could not be read as an ATD Business Hub backup.')}e.target.value=''};
+$('clearData').onclick=()=>{if(confirm('This permanently clears all ATD Business Hub data stored in this browser. Export a backup first if needed.')){for(let k of Object.keys(keys)){state[k]=[];localStorage.removeItem(keys[k])}renderAll();if(cloudReady)scheduleCloudSave()}};
+$('saveConnect').onclick=()=>{const url=$('sbUrl').value.trim(),key=$('sbKey').value.trim();if(!url.startsWith('https://')||!key){showConnectStatus('Enter the full HTTPS API URL and publishable key.');return}localStorage.setItem('atd_sb_url',url);localStorage.setItem('atd_sb_key',key);if(initSupabase()){showConnectStatus('Connection details saved in this browser. Now sign in or create your account.')}else showConnectStatus('Could not initialise Supabase. Check the URL and publishable key.')};
+$('testConnect').onclick=async()=>{if(!initSupabase()){showConnectStatus('Enter and save your API URL and publishable key first.');return}try{const {error}=await supabaseClient.auth.getSession();if(error)throw error;showConnectStatus('Supabase client initialized. Sign in to verify database access.')}catch(e){showConnectStatus('Connection check failed: '+e.message)}};
+$('signInBtn').onclick=async()=>{if(!initSupabase()){showAuthStatus('First enter and save the API URL and publishable key above.');return}const email=$('authEmail').value.trim(),password=$('authPassword').value;if(!email||!password){showAuthStatus('Enter your email and password.');return}showAuthStatus('Signing in…');const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});if(error){showAuthStatus(error.message);return}showAuthStatus('Signed in. Loading your records…');await activateSession(data.user)};
+$('signUpBtn').onclick=async()=>{if(!initSupabase()){showAuthStatus('First enter and save the API URL and publishable key above.');return}const email=$('authEmail').value.trim(),password=$('authPassword').value;if(!email||password.length<6){showAuthStatus('Enter a valid email and a password of at least 6 characters.');return}showAuthStatus('Creating account…');const {data,error}=await supabaseClient.auth.signUp({email,password});if(error){showAuthStatus(error.message);return}if(data.session&&data.user){showAuthStatus('Account created. Loading your records…');await activateSession(data.user)}else{showAuthStatus('Account request created. Check your email for a confirmation link, then return here and sign in.')}};
+$('signOutBtn').onclick=async()=>{if(supabaseClient)await supabaseClient.auth.signOut();currentUser=null;cloudReady=false;setSignedInUI(false);showAuthStatus('Signed out.')};
+$('syncNow').onclick=()=>saveCloudNow();
+const savedConfig=configValues();$('sbUrl').value=savedConfig.url;$('sbKey').value=savedConfig.key;
+renderAll();setSignedInUI(false);connectAndRestoreSession();
 </script>
 </body></html>
