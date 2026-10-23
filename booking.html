@@ -49,15 +49,15 @@ main{max-width:760px;margin:26px auto;padding:0 16px}.card{background:#fff;borde
 <script>
 /*
   SETUP REQUIRED BEFORE PUBLISHING:
-  Replace PUBLISHABLE_KEY_PLACEHOLDER with the Supabase project's browser-safe
+  Replace sb_publishable_bfmHVxxrF4psQVJ-aahaaQ_DsEutly9 with the Supabase project's browser-safe
   publishable key (sb_publishable_...). Never use a secret/service-role key here.
 */
 const SUPABASE_URL='https://ujopvetvzfxgcxrphonx.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY='PUBLISHABLE_KEY_PLACEHOLDER';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_bfmHVxxrF4psQVJ-aahaaQ_DsEutly9';
 const FUNCTION_URL=SUPABASE_URL+'/functions/v1/submit-booking-request';
 const $=id=>document.getElementById(id);
 const money=n=>new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP'}).format(Number(n)||0);
-const clientReady=()=>SUPABASE_PUBLISHABLE_KEY!=='PUBLISHABLE_KEY_PLACEHOLDER'&&SUPABASE_PUBLISHABLE_KEY.trim().length>10;
+const clientReady=()=>SUPABASE_PUBLISHABLE_KEY!=='sb_publishable_bfmHVxxrF4psQVJ-aahaaQ_DsEutly9'&&SUPABASE_PUBLISHABLE_KEY.trim().length>10;
 async function callFunction(payload){
   if(!clientReady())throw new Error('Booking page setup is not finished yet. Please contact the business.');
   const response=await fetch(FUNCTION_URL,{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_PUBLISHABLE_KEY},body:JSON.stringify(payload)});
