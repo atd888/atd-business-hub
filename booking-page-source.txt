@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Request a Booking | AT DERMYSHI LTD</title>
+<style>
+:root{--navy:#172b4d;--blue:#2f5f9f;--bg:#f4f6fa;--ink:#1c2430;--muted:#687386;--line:#e1e6ee;--green:#18794e}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}
+header{background:var(--navy);color:#fff;padding:22px}.brand{font-weight:800;font-size:20px}.sub{color:#d3deee;font-size:13px;margin-top:4px}
+main{max-width:760px;margin:26px auto;padding:0 16px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:16px}h1{font-size:25px;margin:0 0 8px}h2{font-size:18px;margin:0 0 10px}.muted{color:var(--muted);font-size:13px}.fieldgrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{display:flex;flex-direction:column;gap:5px}.full{grid-column:1/-1}label{font-size:12px;font-weight:700;color:#4e5a6d}input,select,textarea{font:inherit;width:100%;padding:11px;border:1px solid #cfd7e3;border-radius:8px;background:#fff}textarea{min-height:100px;resize:vertical}.btn{border:0;border-radius:9px;background:var(--navy);color:#fff;padding:12px 16px;font-weight:700;cursor:pointer}.btn:disabled{opacity:.55;cursor:wait}.status{padding:12px;border-radius:9px;background:#eef3fa;margin-top:14px;overflow-wrap:anywhere}.hidden{display:none!important}.honeypot{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}a{color:var(--blue)}.result{white-space:pre-wrap;overflow-wrap:anywhere}.bank{background:#eef8f1;border:1px solid #b7dfc4;padding:14px;border-radius:10px;margin-top:12px}
+@media(max-width:560px){.fieldgrid{grid-template-columns:1fr}.full{grid-column:auto}.card{padding:16px}main{margin:16px auto}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<header><div class="brand">AT DERMYSHI LTD</div><div class="sub">Painting, decorating & refurbishment · London</div></header>
+<main>
+<section class="card">
+<h1>Request a booking</h1>
+<p class="muted">Send your job details and preferred date. This is a request, not a confirmed appointment. We’ll review the details and provide a quote. If approved, your private tracking link will show the quote and the 40% deposit amount.</p>
+<form id="bookingForm">
+<div class="fieldgrid">
+<div class="field"><label for="customer_name">Full name *</label><input id="customer_name" name="customer_name" autocomplete="name" maxlength="150" required></div>
+<div class="field"><label for="customer_email">Email address *</label><input id="customer_email" name="customer_email" type="email" autocomplete="email" maxlength="254" required></div>
+<div class="field"><label for="customer_phone">Phone number</label><input id="customer_phone" name="customer_phone" type="tel" autocomplete="tel" maxlength="50"></div>
+<div class="field"><label for="service">Service required *</label><select id="service" name="service" required><option value="">Choose a service</option><option>Painting & decorating</option><option>External painting</option><option>Bathroom refurbishment</option><option>Tiling</option><option>Carpentry</option><option>Plastering</option><option>General refurbishment</option><option>Other</option></select></div>
+<div class="field full"><label for="property_address">Full property address *</label><input id="property_address" name="property_address" autocomplete="street-address" maxlength="500" required></div>
+<div class="field"><label for="preferred_date">Preferred date</label><input id="preferred_date" name="preferred_date" type="date"></div>
+<div class="field full"><label for="job_description">Describe the work</label><textarea id="job_description" name="job_description" maxlength="3000" placeholder="Please describe the rooms, work needed, access and any other useful details."></textarea></div>
+<div class="honeypot" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
+</div>
+<p class="muted">Please don’t include payment card details or other sensitive information.</p>
+<button class="btn" id="submitBtn" type="submit">Send booking request</button>
+<div id="submitStatus" class="status hidden" role="status"></div>
+</form>
+</section>
+<section class="card">
+<h2>Check an existing request</h2>
+<p class="muted">Paste the private tracking code from your saved confirmation link. Bank details appear here only if your request has been approved.</p>
+<form id="statusForm">
+<div class="field"><label for="trackingToken">Private tracking code</label><input id="trackingToken" autocomplete="off" inputmode="text" pattern="[a-fA-F0-9]{64}" minlength="64" maxlength="64" required></div>
+<div style="margin-top:12px"><button class="btn" id="checkBtn" type="submit">Check request status</button></div>
+<div id="trackingStatus" class="status hidden" role="status"></div>
+</form>
+</section>
+<p class="muted">Your information is used to review and respond to this booking request. Submitting the form does not confirm an appointment or require payment.</p>
+</main>
+<script>
+/*
+  SETUP REQUIRED BEFORE PUBLISHING:
+  Replace PUBLISHABLE_KEY_PLACEHOLDER with the Supabase project's browser-safe
+  publishable key (sb_publishable_...). Never use a secret/service-role key here.
+*/
+const SUPABASE_URL='https://ujopvetvzfxgcxrphonx.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='PUBLISHABLE_KEY_PLACEHOLDER';
+const FUNCTION_URL=SUPABASE_URL+'/functions/v1/submit-booking-request';
+const $=id=>document.getElementById(id);
+const money=n=>new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP'}).format(Number(n)||0);
+const clientReady=()=>SUPABASE_PUBLISHABLE_KEY!=='PUBLISHABLE_KEY_PLACEHOLDER'&&SUPABASE_PUBLISHABLE_KEY.trim().length>10;
+async function callFunction(payload){
+  if(!clientReady())throw new Error('Booking page setup is not finished yet. Please contact the business.');
+  const response=await fetch(FUNCTION_URL,{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_PUBLISHABLE_KEY},body:JSON.stringify(payload)});
+  let data={};try{data=await response.json()}catch{}
+  if(!response.ok)throw new Error(data.error||'The request could not be completed. Please try again.');
+  return data;
+}
+function show(el,msg){el.textContent=msg;el.classList.remove('hidden')}
+function makeTrackingUrl(token){const u=new URL(window.location.href);u.search='';u.hash='';u.searchParams.set('token',token);return u.toString()}
+$('bookingForm').addEventListener('submit',async e=>{
+  e.preventDefault();const btn=$('submitBtn'),status=$('submitStatus');btn.disabled=true;btn.textContent='Sending…';status.classList.add('hidden');
+  const payload={action:'submit',customer_name:$('customer_name').value.trim(),customer_email:$('customer_email').value.trim(),customer_phone:$('customer_phone').value.trim(),service:$('service').value,property_address:$('property_address').value.trim(),preferred_date:$('preferred_date').value,job_description:$('job_description').value.trim(),website:$('website').value};
+  try{
+    const data=await callFunction(payload);
+    if(!data.token)throw new Error(data.message||'Could not confirm the request. Please contact the business.');
+    const url=makeTrackingUrl(data.token);
+    status.textContent='Your request has been submitted. Save this private tracking link so you can check the decision and, if approved, see the quote and 40% deposit. '+url;
+    show(status,status.textContent);
+    const link=document.createElement('a');link.href=url;link.textContent='Open your private tracking page';link.target='_blank';link.rel='noopener';link.style.display='block';link.style.marginTop='8px';status.appendChild(document.createElement('br'));status.appendChild(link);
+    $('bookingForm').reset();
+  }catch(err){show(status,err.message||'Something went wrong. Please try again.')}
+  finally{btn.disabled=false;btn.textContent='Send booking request'}
+});
+async function checkStatus(token){
+  const el=$('trackingStatus');show(el,'Checking request…');
+  try{
+    const data=await callFunction({action:'status',token});
+    const labels={pending:'Awaiting review',approved:'Approved',rejected:'Not approved',deposit_received:'Deposit received'};
+    el.replaceChildren();
+    const summary=document.createElement('div');summary.className='result';
+    summary.textContent='Status: '+(labels[data.status]||data.status)+'\nSubmitted: '+(data.created_at?new Date(data.created_at).toLocaleString('en-GB'):'—');
+    if(data.quoted_total!==null&&data.quoted_total!==undefined)summary.textContent+='\nQuote total: '+money(data.quoted_total);
+    if(data.deposit_amount!==null&&data.deposit_amount!==undefined)summary.textContent+='\n40% deposit: '+money(data.deposit_amount);
+    el.appendChild(summary);
+    if(data.status==='approved'&&data.bank_details){
+      const bank=document.createElement('div');bank.className='bank';
+      const heading=document.createElement('strong');heading.textContent='Bank transfer details';bank.appendChild(heading);
+      const details=document.createElement('div');details.className='result';details.textContent='\nAccount name: '+(data.bank_details.account_name||'')+'\nSort code: '+(data.bank_details.sort_code||'')+'\nAccount number: '+(data.bank_details.account_number||'')+'\nPayment reference: '+(data.payment_reference||'ATD booking deposit');bank.appendChild(details);
+      el.appendChild(bank);
+      const caution=document.createElement('p');caution.className='muted';caution.textContent='Please transfer only the deposit shown above. The appointment is not confirmed until the business confirms receipt and the booking details.';el.appendChild(caution);
+    }
+  }catch(err){el.textContent=err.message||'Could not check this request.';el.classList.remove('hidden')}
+}
+$('statusForm').addEventListener('submit',e=>{e.preventDefault();const token=$('trackingToken').value.trim();if(!/^[a-f0-9]{64}$/i.test(token)){show($('trackingStatus'),'Enter the 64-character tracking code from your private link.');return}checkStatus(token)});
+const url=new URL(window.location.href);const token=url.searchParams.get('token');
+if(token){$('trackingToken').value=token;checkStatus(token)}
+</script>
+</body>
+</html>
