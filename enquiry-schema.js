@@ -1,0 +1,55 @@
+/* Shared, side-effect-free enquiry rules. Browser global and Node exports. */
+(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.ATDEnquiry=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+ 'use strict';
+ const SERVICES={'painting-decorating':'Painting & decorating','wallpapering':'Wallpapering','bathroom-refurbishments':'Bathroom refurbishments','full-refurbishments':'Full refurbishments','project-discussion':'Other'};
+ const PROJECTS={
+  'project-discussion':{key:'project-discussion',label:'Not sure — discuss my project',ui:'project-discussion'},
+  'painting-decorating':{key:'painting-decorating',label:'Interior painting & decorating',ui:'painting-decorating'},
+  'interior-painting':{key:'painting-decorating',label:'Interior painting & decorating',ui:'painting-decorating'},
+  'exterior-painting':{key:'painting-decorating',label:'Exterior painting & decorating',ui:'exterior-painting'},
+  'wallpapering':{key:'wallpapering',label:'Wallpapering',ui:'wallpapering'},
+  'bathroom-refurbishments':{key:'bathroom-refurbishments',label:'Bathroom refurbishment',ui:'bathroom-refurbishments'},
+  'full-refurbishments':{key:'full-refurbishments',label:'Full house refurbishment',propertyType:'House',ui:'full-refurbishments'},
+  'full-house-refurbishment':{key:'full-refurbishments',label:'Full house refurbishment',propertyType:'House',ui:'full-refurbishments'},
+  'full-flat-refurbishment':{key:'full-refurbishments',label:'Full flat refurbishment',propertyType:'Flat / apartment',ui:'full-flat-refurbishment'}
+ };
+ const resolveService=value=>PROJECTS[value]||null;
+ function paintingKind(value){
+  if(value==='Front / external doors')return {kind:'Doors',exterior:true};
+  if(value==='External windows')return {kind:'Windows',exterior:true};
+  if(value==='Exterior walls / house front'||value==='Exterior walls')return {kind:'Exterior walls',exterior:true};
+  return {kind:value,exterior:['Exterior woodwork','Railings / gates / fences'].includes(value)};
+ }
+ function normalizePaintingItem(item){const selected=item.item_type||item.kind;const type=paintingKind(selected);const normalized={...item,item_type:selected,kind:type.kind,...(type.exterior?{location:'Exterior'}:{})};if(normalized.colour!=='A colour')delete normalized.colour_name;return normalized;}
+ const tidy=value=>String(value??'').trim().replace(/[\t ]+/g,' ');
+ const digits=value=>tidy(value).replace(/\D/g,'');
+ const dateOK=value=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(value||''))return false;const d=new Date(value+'T00:00:00Z');return !Number.isNaN(d.getTime())&&d.toISOString().slice(0,10)===value;};
+ const emailOK=value=>{const s=tidy(value);return s.length<=254&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);};
+ const phoneOK=value=>{const s=tidy(value);return s.length<=30&&/^\+?[()\d\s.\-]+$/.test(s)&&digits(s).length>=10&&digits(s).length<=15;};
+ function validateContact(contact){const errors={};if(tidy(contact.name).length<2||tidy(contact.name).length>150)errors.name='Please enter your full name.';if(!emailOK(contact.email))errors.email='Please enter a valid email address.';if(!phoneOK(contact.phone))errors.phone='Please enter a valid phone number with 10–15 digits.';if(tidy(contact.address).length<8||tidy(contact.address).length>450)errors.address='Please enter the full property address, including building number or name and street.';if(!/^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/i.test(tidy(contact.postcode)))errors.postcode='Please enter a full UK postcode, for example N8 0HP.';return errors;}
+ function validateProject(details){const errors={};if(!SERVICES[details?.service_key])errors.service='Choose one of our services.';const scope=details?.scope||{},request=details?.request_type||'quote';
+ if(!['quote','appointment','both'].includes(request))errors.request_type='Choose whether you need a quote, an appointment, or both.';
+ if(details?.service_key==='project-discussion'&&request!=='appointment')errors.service='Choose a service for a quotation, or request a discussion first.';
+ if(request!=='quote'){
+  const appointment=details.appointment||{};
+  if(!['Phone call','Site visit','Please advise'].includes(appointment.type))errors.appointment='Choose a call, site visit or advice.';
+  if(typeof appointment.flexible!=='boolean')errors.appointment='Tell us whether your appointment timing is flexible.';
+  if(appointment.flexible===false&&!dateOK(appointment.preferred_date))errors.appointment='Choose a preferred appointment date or select flexible timing.';
+  if(!['Morning','Afternoon','Evening','Anytime'].includes(appointment.preferred_time))errors.appointment='Choose a preferred time window.';
+ }
+ if(request==='appointment'){if(tidy(scope.summary).length<3)errors.scope='Briefly describe what you would like to discuss.';return errors;}
+ if(details?.service_key==='painting-decorating'){
+  if(!Array.isArray(scope.items)||scope.items.length<1||scope.items.length>12)errors.scope='Add between one and 12 areas or items to paint.';
+  (scope.items||[]).forEach((item,index)=>{const key='item-'+index;if(!tidy(item.kind))errors[key]='Choose what needs painting.';if(item.kind==='Doors'){if(!Number.isInteger(Number(item.quantity))||Number(item.quantity)<1||Number(item.quantity)>200)errors[key]='Enter the number of doors.';for(const field of ['location','sides','include','colour','finish','condition'])if(!tidy(item[field]))errors[key]='Complete the door details. You can choose “Not sure”.';}else{if(!tidy(item.area))errors[key]='Give this room or item a name.';if(item.kind==='Windows'&&(!Number.isInteger(Number(item.quantity))||Number(item.quantity)<1||Number(item.quantity)>200))errors[key]='Enter the number of windows.';}});
+ }
+ if(details?.service_key==='wallpapering'&&(!Array.isArray(scope.walls)||scope.walls.length<1||scope.walls.length>12||scope.walls.some(w=>!tidy(w.wall))))errors.scope='Name at least one wall or room to wallpaper.';
+ if(details?.service_key==='bathroom-refurbishments'&&!(scope.work||[]).length)errors.scope='Choose what you would like changed, or choose “Not sure yet”.';
+ if(details?.service_key==='full-refurbishments'&&(!(scope.rooms||[]).length||scope.rooms.some(r=>!tidy(r.area)||!tidy(r.priorities)||!(r.work||[]).length)))errors.scope='Name each room or area and describe the requested work.';
+ return errors;}
+ const LABELS={summary:'What you would like to discuss',type:'Appointment preference',preferred_appointment_date:'Preferred appointment date',preferred_time:'Preferred appointment time',flexible:'Appointment timing flexible',item_type:'Painting item selected',service_variant:'Project type',kind:'What needs painting',area:'Room / area',quantity:'Quantity',location:'Inside / outside',sides:'Sides',include:'Door / frame scope',colour:'Colour choice',colour_name:'Colour name / code',finish:'Finish',condition:'Current condition',preparation:'Preparation / repairs',length:'Length (m)',width:'Width (m)',height:'Height (m)',units:'Approximate quantity / length',access_height:'Access height',wall:'Wall / room',covering:'Existing wall covering',removal:'Old paper removal',product:'Wallpaper product / link',pattern_repeat:'Pattern repeat (cm)',roll_width:'Roll width (cm)',roll_length:'Roll length (m)',rolls:'Rolls supplied',work:'Requested work',layout:'Layout changes',wall_tiles:'Wall tiling area (m²)',floor_tiles:'Floor tiling area (m²)',only_bathroom:'Only bathroom',plumbing:'Plumbing changes',electrical:'Electrical changes',ventilation:'Ventilation changes',issues:'Leaks, damp or other issues',plans:'Plans / permissions',priorities:'Priorities',floor_area:'Approximate floor area (m²)',bedrooms:'Bedrooms',specialists:'Specialist work to discuss',address:'Property address',postcode:'Postcode',property_type:'Property type',occupancy:'Occupied / vacant',access:'Access / floor / lift',parking:'Parking / loading',preferred_date:'Preferred start date',timing:'Timing / deadline',materials:'Materials supplied by',budget:'Indicative budget',discount_requested:'10% labour offer requested',notes:'Additional notes'};
+ function plain(value){return Array.isArray(value)?value.join(', '):typeof value==='boolean'?(value?'Yes':'No'):tidy(value);}
+ function addFields(lines,obj,indent=''){for(const [key,value]of Object.entries(obj||{})){if(['items','walls','rooms'].includes(key)||value===null||value===undefined||value===''||(Array.isArray(value)&&!value.length))continue;lines.push(indent+(LABELS[key]||key)+': '+plain(value));}}
+ function summary(details){const lines=['ATD PROJECT SPEC v1','Request: '+({quote:'Quotation',appointment:'Call / site visit request',both:'Quotation and call / site visit request'}[details.request_type||'quote']||'To discuss'),'Service: '+(SERVICES[details.service_key]||'Not selected')];if(details.appointment){lines.push('\nAPPOINTMENT REQUEST — availability must be confirmed');const appointment={...details.appointment,preferred_appointment_date:details.appointment.preferred_date};delete appointment.preferred_date;addFields(lines,appointment);}if(details.service_variant)lines.push('Project type: '+tidy(details.service_variant));addFields(lines,details.property);addFields(lines,details.preferences);const scope=details.scope||{};for(const [key,label]of [['items','Painting item'],['walls','Wallpaper area'],['rooms','Refurbishment area']]){(scope[key]||[]).forEach((item,i)=>{lines.push('\n'+label+' '+(i+1));addFields(lines,item,'  ');});}addFields(lines,scope);if(tidy(details.notes))lines.push('\nAdditional notes: '+tidy(details.notes));return lines.join('\n');}
+ function toPayload(contact,details,website=''){const errors={...validateContact(contact),...validateProject(details)};if(Object.keys(errors).length){const error=new Error('Please complete the required details.');error.fields=errors;throw error;}const description=summary(details);const structured=JSON.stringify(details);const byteCount=typeof TextEncoder==='function'?new TextEncoder().encode(structured).length:unescape(encodeURIComponent(structured)).length;if(byteCount>12000)throw new Error('Your project specification is very long. Please shorten the notes or contact ATD to discuss a larger specification.');const concise=description.length<=3000?description:description.slice(0,2880)+'\n[Summary shortened. The complete structured project specification is retained with this enquiry.]';return {action:'submit',customer_name:tidy(contact.name),customer_email:tidy(contact.email),customer_phone:tidy(contact.phone),property_address:tidy(contact.address)+'\n'+tidy(contact.postcode).toUpperCase(),service:SERVICES[details.service_key],preferred_date:details.request_type==='appointment'?(details.appointment?.preferred_date||''):(details.preferences?.preferred_date||''),job_description:concise,project_details:details,website:tidy(website)};}
+ return {SERVICES,PROJECTS,resolveService,paintingKind,normalizePaintingItem,tidy,emailOK,phoneOK,validateContact,validateProject,summary,toPayload};
+});

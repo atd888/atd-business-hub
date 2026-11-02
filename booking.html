@@ -1,108 +1,42 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Request a Booking | AT DERMYSHI LTD</title>
-<style>
-:root{--navy:#172b4d;--blue:#2f5f9f;--bg:#f4f6fa;--ink:#1c2430;--muted:#687386;--line:#e1e6ee;--green:#18794e}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}
-header{background:var(--navy);color:#fff;padding:22px}.brand{font-weight:800;font-size:20px}.sub{color:#d3deee;font-size:13px;margin-top:4px}
-main{max-width:760px;margin:26px auto;padding:0 16px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:16px}h1{font-size:25px;margin:0 0 8px}h2{font-size:18px;margin:0 0 10px}.muted{color:var(--muted);font-size:13px}.fieldgrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{display:flex;flex-direction:column;gap:5px}.full{grid-column:1/-1}label{font-size:12px;font-weight:700;color:#4e5a6d}input,select,textarea{font:inherit;width:100%;padding:11px;border:1px solid #cfd7e3;border-radius:8px;background:#fff}textarea{min-height:100px;resize:vertical}.btn{border:0;border-radius:9px;background:var(--navy);color:#fff;padding:12px 16px;font-weight:700;cursor:pointer}.btn:disabled{opacity:.55;cursor:wait}.status{padding:12px;border-radius:9px;background:#eef3fa;margin-top:14px;overflow-wrap:anywhere}.hidden{display:none!important}.honeypot{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}a{color:var(--blue)}.result{white-space:pre-wrap;overflow-wrap:anywhere}.bank{background:#eef8f1;border:1px solid #b7dfc4;padding:14px;border-radius:10px;margin-top:12px}
-@media(max-width:560px){.fieldgrid{grid-template-columns:1fr}.full{grid-column:auto}.card{padding:16px}main{margin:16px auto}}
-</style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#18363b">
+<title>Request a quote | ATD North London Painters</title>
+<link rel="stylesheet" href="client-form.css?v=10">
+<script src="client-config.js" defer></script><script src="enquiry-schema.js?v=4" defer></script><script src="client-form.js?v=12" defer></script>
 </head>
 <body>
-<header><div class="brand">AT DERMYSHI LTD</div><div class="sub">Painting, decorating & refurbishment · London</div></header>
-<main>
-<section class="card">
-<h1>Request a booking</h1>
-<p class="muted">Send your job details and preferred date. This is a request, not a confirmed appointment. We’ll review the details and provide a quote. If approved, your private tracking link will show the quote and the 40% deposit amount.</p>
-<form id="bookingForm">
-<div class="fieldgrid">
-<div class="field"><label for="customer_name">Full name *</label><input id="customer_name" name="customer_name" autocomplete="name" maxlength="150" required></div>
-<div class="field"><label for="customer_email">Email address *</label><input id="customer_email" name="customer_email" type="email" autocomplete="email" maxlength="254" required></div>
-<div class="field"><label for="customer_phone">Phone number</label><input id="customer_phone" name="customer_phone" type="tel" autocomplete="tel" maxlength="50"></div>
-<div class="field"><label for="service">Service required *</label><select id="service" name="service" required><option value="">Choose a service</option><option>Painting & decorating</option><option>External painting</option><option>Bathroom refurbishment</option><option>Tiling</option><option>Carpentry</option><option>Plastering</option><option>General refurbishment</option><option>Other</option></select></div>
-<div class="field full"><label for="property_address">Full property address *</label><input id="property_address" name="property_address" autocomplete="street-address" maxlength="500" required></div>
-<div class="field"><label for="preferred_date">Preferred date</label><input id="preferred_date" name="preferred_date" type="date"></div>
-<div class="field full"><label for="job_description">Describe the work</label><textarea id="job_description" name="job_description" maxlength="3000" placeholder="Please describe the rooms, work needed, access and any other useful details."></textarea></div>
-<div class="honeypot" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
-</div>
-<p class="muted">Please don’t include payment card details or other sensitive information.</p>
-<button class="btn" id="submitBtn" type="submit">Send booking request</button>
-<div id="submitStatus" class="status hidden" role="status"></div>
+<a class="skip" href="#main">Skip to project form</a>
+<header class="client-header"><a class="brand" href="../index.html" aria-label="Back to the ATD website"><strong>ATD<span>•</span></strong><span>NORTH LONDON<br>PAINTERS</span></a><a class="back-to-site" href="../index.html">← Back to website</a></header>
+<main id="main">
+<div id="previewNotice" class="notice" role="status">Preview only — no enquiries or emails are sent.</div>
+<section id="verificationPanel" class="panel hidden" aria-labelledby="verificationTitle"><p class="eyebrow">YOUR EMAIL CONFIRMATION</p><h2 id="verificationTitle">Confirming your email</h2><p id="verificationStatus" role="status"></p><a class="button secondary" href="./booking.html">Start another enquiry</a></section>
+<section id="enquiryPanel">
+<div class="intro"><p class="eyebrow">YOUR ATD QUOTATION</p><h1>Request a quote.</h1><p>Four simple steps. Start with your project below.</p></div>
+<nav class="step-navigation" aria-label="Quote form progress"><ol class="steps"><li aria-current="step"><button type="button" data-progress-step="0"><span>1</span><strong>Project</strong></button></li><li><button type="button" data-progress-step="1" disabled><span>2</span><strong>Work needed</strong></button></li><li><button type="button" data-progress-step="2" disabled><span>3</span><strong>Your details</strong></button></li><li><button type="button" data-progress-step="3" disabled><span>4</span><strong>Check & send</strong></button></li></ol></nav>
+<div id="projectContext" class="project-context hidden" aria-live="polite"></div><form id="bookingForm" novalidate><input id="request-quote" name="request_type" type="hidden" value="quote"><div id="formError" class="form-error hidden" role="alert" tabindex="-1"></div>
+<section class="form-step" data-step="0" aria-labelledby="stepTitle0"><div class="step-head"><p class="eyebrow">STEP 1 OF 4</p><h2 id="stepTitle0" tabindex="-1">Choose your project.</h2><p>Which type of work are you planning?</p></div>
+<input id="service" type="hidden"><fieldset class="project-choices"><legend>Choose your project</legend><div class="project-choice-grid"><label class="project-choice" for="project-painting-decorating"><input id="project-painting-decorating" name="service_choice" type="radio" value="painting-decorating" data-service-choice required><span><strong>Interior painting</strong><small>Rooms, ceilings, doors and interior woodwork.</small></span></label><label class="project-choice" for="project-exterior-painting"><input id="project-exterior-painting" name="service_choice" type="radio" value="exterior-painting" data-service-choice required><span><strong>Exterior painting</strong><small>Front doors, external windows, house fronts and railings.</small></span></label><label class="project-choice" for="project-wallpapering"><input id="project-wallpapering" name="service_choice" type="radio" value="wallpapering" data-service-choice required><span><strong>Wallpapering</strong><small>A feature wall, several walls or complete rooms.</small></span></label><label class="project-choice" for="project-bathroom-refurbishments"><input id="project-bathroom-refurbishments" name="service_choice" type="radio" value="bathroom-refurbishments" data-service-choice required><span><strong>Bathroom refurbishment</strong><small>A bathroom refresh or a more complete transformation.</small></span></label><label class="project-choice" for="project-full-refurbishments"><input id="project-full-refurbishments" name="service_choice" type="radio" value="full-refurbishments" data-service-choice required><span><strong>House refurbishment</strong><small>Several rooms or a coordinated whole-house project.</small></span></label><label class="project-choice" for="project-full-flat-refurbishment"><input id="project-full-flat-refurbishment" name="service_choice" type="radio" value="full-flat-refurbishment" data-service-choice required><span><strong>Flat refurbishment</strong><small>A flat or apartment, with the work planned around your space.</small></span></label></div></fieldset>
+
+</section>
+<section class="form-step hidden" data-step="1" aria-labelledby="stepTitle1"><div class="step-head"><p class="eyebrow">STEP 2 OF 4</p><h2 id="stepTitle1" tabindex="-1">What work do you need?</h2><p>Add each room or item below. Measurements, colours and finishes can be discussed later.</p></div><div id="serviceFields"></div><div class="field"><label for="project_notes">Anything else we should know? <span>(optional)</span></label><textarea id="project_notes" rows="3" maxlength="1800" placeholder="Your priorities, anything unusual, or questions for Landi…"></textarea></div></section>
+<section class="form-step hidden" data-step="2" aria-labelledby="stepTitle2"><div class="step-head"><p class="eyebrow">STEP 3 OF 4</p><h2 id="stepTitle2" tabindex="-1">How can we reach you?</h2><p>These details let us review your project and contact you about your quotation. Fields marked * are required.</p></div>
+<div class="fields two"><div class="field"><label for="customer_name">Full name *</label><input id="customer_name" autocomplete="name" maxlength="150" required></div><div class="field"><label for="customer_phone">Phone number *</label><input id="customer_phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" required></div><div class="field full"><label for="customer_email">Email address *</label><input id="customer_email" type="email" autocomplete="email" maxlength="254" required><small>Use an address you can access to confirm your enquiry.</small></div><div class="field full"><label for="property_address">Full property address *</label><textarea id="property_address" rows="2" autocomplete="street-address" maxlength="450" placeholder="Building number or name, street, town / city" required></textarea></div><div class="field"><label for="property_postcode">Property postcode *</label><input id="property_postcode" autocomplete="postal-code" maxlength="10" required></div></div><details class="optional-details"><summary>Property, timing & materials <span>Optional — add what you know</span></summary><div class="fields two"><div class="field"><label for="property_type">Property type</label><select id="property_type"><option>Not sure</option><option>House</option><option>Flat / apartment</option><option>Maisonette</option><option>Commercial property</option><option>Other</option></select></div><div class="field"><label for="occupancy">Will the property be occupied?</label><select id="occupancy"><option>Not sure yet</option><option>Occupied during the work</option><option>Vacant during the work</option><option>Some rooms occupied / phased work</option></select></div><div class="field"><label for="preferred_date">Preferred start date <span>(optional)</span></label><input id="preferred_date" type="date"></div><div class="field full"><label for="timing">Timing or deadline <span>(optional)</span></label><input id="timing" maxlength="200" placeholder="Flexible, a preferred month, or a deadline to discuss"></div><div class="field full"><label for="access">Access, floor and lift details <span>(optional)</span></label><input id="access" maxlength="250" placeholder="For example: second-floor flat, lift available"></div><div class="field full"><label for="parking">Parking / loading arrangements <span>(optional)</span></label><input id="parking" maxlength="200"></div><div class="field"><label for="materials">Who will supply materials?</label><select id="materials"><option>Discuss with ATD</option><option>I will supply the materials</option><option>Please include materials in the quotation</option><option>A mixture — to agree</option></select></div><div class="field"><label for="budget">Indicative budget <span>(optional)</span></label><input id="budget" maxlength="100" placeholder="A range or ‘to discuss’"></div></div>
+</details><label class="check-row"><input id="labour_offer" type="checkbox"><span>Please include the 10% labour offer.<small>Materials excluded. The saving will be shown in your written quotation.</small></span></label>
+<div class="help-box"><strong>Photos help us understand the work.</strong><p>You can send project photos separately on <a href="https://wa.me/447557954457" target="_blank" rel="noopener noreferrer">WhatsApp</a>. Include your name so we can match them to your enquiry. Photos are not uploaded by this form.</p></div>
+</section>
+<section class="form-step hidden" data-step="3" aria-labelledby="stepTitle3"><div class="step-head"><p class="eyebrow">STEP 4 OF 4</p><h2 id="stepTitle3" tabindex="-1">Check your quote request.</h2><p>Check the summary below. Use Edit to change a section without starting again.</p></div><div class="review-section-head"><h3>Your contact details</h3><button class="text-button" type="button" data-edit-step="2">Edit contact details</button></div><div id="reviewContact" class="review-contact"></div><div class="review-section-head"><h3>Your project</h3><button class="text-button" type="button" data-edit-step="1">Edit project details</button></div><button class="text-button review-service-edit" type="button" data-edit-step="0">Change project type</button><div id="reviewScope" class="review-scope"></div><div class="notice"><strong>One more step after sending:</strong> open the confirmation link we email you. Your enquiry will stay unverified until then. This helps us confirm we can reply to you.</div><p class="small-print">This is an enquiry, not a confirmed booking. Work, price, materials and payment arrangements must be agreed in writing.</p>
+</section>
+<div class="honeypot" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" autocomplete="off" tabindex="-1"></div>
+<div id="submitStatus" class="notice hidden" role="status"></div>
+<div class="form-actions"><button type="button" id="backBtn" class="button secondary hidden">← Back</button><button type="button" id="nextBtn" class="button">Next: work needed <span aria-hidden="true">→</span></button><button type="submit" id="submitBtn" class="button hidden">Send quote request <span aria-hidden="true">↗</span></button></div>
+<noscript><p class="notice">This guided form needs JavaScript. Call <a href="tel:+447557954457">07557 954457</a> or email <a href="mailto:tdermyshi88@gmail.com">tdermyshi88@gmail.com</a> to discuss your project.</p></noscript>
 </form>
 </section>
-<section class="card">
-<h2>Check an existing request</h2>
-<p class="muted">Paste the private tracking code from your saved confirmation link. Bank details appear here only if your request has been approved.</p>
-<form id="statusForm">
-<div class="field"><label for="trackingToken">Private tracking code</label><input id="trackingToken" autocomplete="off" inputmode="text" pattern="[a-fA-F0-9]{64}" minlength="64" maxlength="64" required></div>
-<div style="margin-top:12px"><button class="btn" id="checkBtn" type="submit">Check request status</button></div>
-<div id="trackingStatus" class="status hidden" role="status"></div>
-</form>
-</section>
-<p class="muted">Your information is used to review and respond to this booking request. Submitting the form does not confirm an appointment or require payment.</p>
+<section class="privacy-note"><details><summary>How we use your information</summary><p>AT DERMYSHI LTD, trading as ATD North London Painters, uses the details you send to confirm your email, assess your project, respond and prepare a quotation. This does not sign you up for marketing. The enquiry system uses Supabase and an email delivery provider. Photos you send separately through WhatsApp are handled through that service.</p><p>Contact <a href="mailto:tdermyshi88@gmail.com">tdermyshi88@gmail.com</a> about your data or rights. Registered office: 94 Lausanne Road, London, England, N8 0HP. Company number 16124001.</p><a id="privacyLink" class="hidden">Read the privacy notice ↗</a></details></section>
+<section id="legacyTracking" class="panel hidden"><h2>Check an existing request</h2><p>Use the private code from your existing tracking link. This does not confirm a new enquiry.</p><form id="statusForm"><label for="trackingToken">Private tracking code</label><input id="trackingToken" autocomplete="off" minlength="64" maxlength="64" pattern="[a-fA-F0-9]{64}" required><button class="button secondary" type="submit">Check request</button></form><pre id="trackingStatus" class="notice hidden" role="status"></pre></section>
+<footer><p>ATD North London Painters · Painting, decorating & refurbishments</p><p><a href="tel:+447557954457">07557 954457</a> · <a href="mailto:tdermyshi88@gmail.com">tdermyshi88@gmail.com</a></p></footer>
 </main>
-<script>
-/*
-  SETUP REQUIRED BEFORE PUBLISHING:
-  Replace sb_publishable_bfmHVxxrF4psQVJ-aahaaQ_DsEutly9 with the Supabase project's browser-safe
-  publishable key (sb_publishable_...). Never use a secret/service-role key here.
-*/
-const SUPABASE_URL='https://ujopvetvzfxgcxrphonx.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY='sb_publishable_bfmHVxxrF4psQVJ-aahaaQ_DsEutly9';
-const FUNCTION_URL=SUPABASE_URL+'/functions/v1/submit-booking-request';
-const $=id=>document.getElementById(id);
-const money=n=>new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP'}).format(Number(n)||0);
-const clientReady=()=>SUPABASE_PUBLISHABLE_KEY.startsWith('sb_publishable_')&&SUPABASE_PUBLISHABLE_KEY.trim().length>10;async function callFunction(payload){
-  if(!clientReady())throw new Error('Booking page setup is not finished yet. Please contact the business.');
-  const response=await fetch(FUNCTION_URL,{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_PUBLISHABLE_KEY},body:JSON.stringify(payload)});
-  let data={};try{data=await response.json()}catch{}
-  if(!response.ok)throw new Error(data.error||'The request could not be completed. Please try again.');
-  return data;
-}
-function show(el,msg){el.textContent=msg;el.classList.remove('hidden')}
-function makeTrackingUrl(token){const u=new URL(window.location.href);u.search='';u.hash='';u.searchParams.set('token',token);return u.toString()}
-$('bookingForm').addEventListener('submit',async e=>{
-  e.preventDefault();const btn=$('submitBtn'),status=$('submitStatus');btn.disabled=true;btn.textContent='Sending…';status.classList.add('hidden');
-  const payload={action:'submit',customer_name:$('customer_name').value.trim(),customer_email:$('customer_email').value.trim(),customer_phone:$('customer_phone').value.trim(),service:$('service').value,property_address:$('property_address').value.trim(),preferred_date:$('preferred_date').value,job_description:$('job_description').value.trim(),website:$('website').value};
-  try{
-    const data=await callFunction(payload);
-    if(!data.token)throw new Error(data.message||'Could not confirm the request. Please contact the business.');
-    const url=makeTrackingUrl(data.token);
-    status.textContent='Your request has been submitted. Save this private tracking link so you can check the decision and, if approved, see the quote and 40% deposit. '+url;
-    show(status,status.textContent);
-    const link=document.createElement('a');link.href=url;link.textContent='Open your private tracking page';link.target='_blank';link.rel='noopener';link.style.display='block';link.style.marginTop='8px';status.appendChild(document.createElement('br'));status.appendChild(link);
-    $('bookingForm').reset();
-  }catch(err){show(status,err.message||'Something went wrong. Please try again.')}
-  finally{btn.disabled=false;btn.textContent='Send booking request'}
-});
-async function checkStatus(token){
-  const el=$('trackingStatus');show(el,'Checking request…');
-  try{
-    const data=await callFunction({action:'status',token});
-    const labels={pending:'Awaiting review',approved:'Approved',rejected:'Not approved',deposit_received:'Deposit received'};
-    el.replaceChildren();
-    const summary=document.createElement('div');summary.className='result';
-    summary.textContent='Status: '+(labels[data.status]||data.status)+'\nSubmitted: '+(data.created_at?new Date(data.created_at).toLocaleString('en-GB'):'—');
-    if(data.quoted_total!==null&&data.quoted_total!==undefined)summary.textContent+='\nQuote total: '+money(data.quoted_total);
-    if(data.deposit_amount!==null&&data.deposit_amount!==undefined)summary.textContent+='\n40% deposit: '+money(data.deposit_amount);
-    el.appendChild(summary);
-    if(data.status==='approved'&&data.bank_details){
-      const bank=document.createElement('div');bank.className='bank';
-      const heading=document.createElement('strong');heading.textContent='Bank transfer details';bank.appendChild(heading);
-      const details=document.createElement('div');details.className='result';details.textContent='\nAccount name: '+(data.bank_details.account_name||'')+'\nSort code: '+(data.bank_details.sort_code||'')+'\nAccount number: '+(data.bank_details.account_number||'')+'\nPayment reference: '+(data.payment_reference||'ATD booking deposit');bank.appendChild(details);
-      el.appendChild(bank);
-      const caution=document.createElement('p');caution.className='muted';caution.textContent='Please transfer only the deposit shown above. The appointment is not confirmed until the business confirms receipt and the booking details.';el.appendChild(caution);
-    }
-  }catch(err){el.textContent=err.message||'Could not check this request.';el.classList.remove('hidden')}
-}
-$('statusForm').addEventListener('submit',e=>{e.preventDefault();const token=$('trackingToken').value.trim();if(!/^[a-f0-9]{64}$/i.test(token)){show($('trackingStatus'),'Enter the 64-character tracking code from your private link.');return}checkStatus(token)});
-const url=new URL(window.location.href);const token=url.searchParams.get('token');
-if(token){$('trackingToken').value=token;checkStatus(token)}
-</script>
-</body>
-</html>
+</body></html>

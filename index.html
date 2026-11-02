@@ -20,6 +20,7 @@ footer{padding:18px 22px;color:var(--muted);font-size:11px;text-align:center}hr{
 @media(max-width:520px){.grid{gap:8px}.card{padding:13px}.metric{font-size:21px}.fieldgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.gallery{grid-template-columns:1fr}h1{font-size:22px}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="owner-scope.css?v=10">
 </head>
 <body>
 
@@ -59,7 +60,7 @@ footer{padding:18px 22px;color:var(--muted);font-size:11px;text-align:center}hr{
 <nav id="nav">
 <button class="active" data-page="dashboard">▦ Dashboard</button>
 <button data-page="enquiries">✉ Customer enquiries</button>
-<button data-page="bookings">▣ Booking requests</button>
+<button data-page="bookings">▣ Website enquiries</button>
 <button data-page="quotes">▤ Quotes & invoices</button>
 <button data-page="calendar">▦ Job calendar</button>
 <button data-page="expenses">£ Expenses & profit</button>
@@ -101,8 +102,8 @@ footer{padding:18px 22px;color:var(--muted);font-size:11px;text-align:center}hr{
 <div class="card"><div class="field" style="max-width:320px;margin-bottom:14px"><label>Search enquiries</label><input id="enquirySearch" placeholder="Name, address or service"></div><div id="enquiryTable"></div></div>
 </section>
 <section id="bookings" class="page hidden">
-<div class="sectionhead"><div><h2>Booking requests</h2><div class="muted">Review customer requests. Approving a request requires a quote total; the deposit is calculated at 40%.</div></div><button class="btn secondary" id="refreshBookings">Refresh requests</button></div>
-<div class="notice">Customer bank details are only returned by the secure tracking endpoint after a request is approved. Never send your service-role key to the browser.</div>
+<div class="sectionhead"><div><h2>Your enquiry inbox</h2><div class="muted">Find a project below, review the details and prepare a draft.</div></div><button class="btn secondary" id="refreshBookings">Refresh requests</button></div>
+<details class="owner-help"><summary>How draft quotations and approval work</summary><p>Creating or saving a draft does not approve the enquiry or send a quotation. Approval is separate: the customer tracking page then shows the agreed total, a 40% deposit and business bank details.</p></details>
 <div id="bookingStatus" class="muted" style="margin-bottom:12px">Sign in and refresh to load booking requests.</div>
 <div id="bookingTable" class="card"><div class="empty">No requests loaded yet.</div></div>
 </section>
@@ -133,8 +134,8 @@ footer{padding:18px 22px;color:var(--muted);font-size:11px;text-align:center}hr{
 <div class="field"><label>Job / event *</label><input id="cTitle" required></div>
 <div class="field"><label>Date *</label><input id="cDate" type="date" required></div>
 <div class="field"><label>Customer</label><input id="cCustomer"></div>
-<div class="field"><label>Type</label><select id="cType"><option>Job</option><option>Site visit</option><option>Follow-up</option><option>Other</option></select></div>
-<div class="field full"><label>Address / notes</label><input id="cNotes"></div>
+<div class="field"><label>Type</label><select id="cType"><option>Job</option><option>Site visit</option><option>Phone call</option><option>Follow-up</option><option>Other</option></select></div>
+<div class="field full"><label for="cNotes">Address, contact & appointment notes</label><textarea id="cNotes" rows="5"></textarea></div>
 </div><div class="actions" style="margin-top:12px"><button class="btn">Save calendar item</button><button class="btn secondary" type="button" id="cancelCalendar">Cancel</button></div>
 </form><div class="card"><div id="calendarTable"></div></div>
 </section>
@@ -226,7 +227,7 @@ async function loadBookingRequests(){
     bookingRows=Array.isArray(data?.requests)?data.requests:[];
     renderBookingRequests();
     setBookingStatus(bookingRows.length+' booking request(s) loaded.');
-  }catch(e){setBookingStatus('Could not load requests: '+(e.message||'Unknown error')+'. Check that the updated Edge Function has been deployed.');}
+  }catch(e){bookingRows=[];renderBookingRequests();setBookingStatus('Could not load requests: '+(e.message||'Unknown error')+'. Check that the updated Edge Function has been deployed.');}
 }
 function renderBookingRequests(){
   const host=$('bookingTable');if(!host)return;
@@ -262,7 +263,7 @@ window.updateBookingRequest=async function(requestId,nextStatus){
 };
 const refreshBookingButton=$('refreshBookings');if(refreshBookingButton)refreshBookingButton.onclick=loadBookingRequests;
 function renderAll(){renderDashboard();renderEnquiries();renderQuotes();renderCalendar();renderExpenses();renderGallery();renderBookingRequests()}
-function showPage(p){document.querySelectorAll('.page').forEach(s=>s.classList.toggle('hidden',s.id!==p));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===p));let names={dashboard:['Dashboard','A simple overview of your jobs and money.'],enquiries:['Customer enquiries','Capture and manage incoming work.'],bookings:['Booking requests','Review, approve or reject customer booking requests.'],quotes:['Quotes & invoices','Prepare documents and track balances.'],calendar:['Job calendar','Plan visits, jobs and follow-ups.'],expenses:['Expenses & profit','Track job costs and estimated profit.'],gallery:['Project gallery','Organise before-and-after project photos.'],settings:['Data & backup','Manage local demo data and exports.']};$('pageTitle').textContent=names[p][0];$('pageSub').textContent=names[p][1];$('quickAdd').textContent=p==='enquiries'?'+ New enquiry':'+ Add enquiry';}
+function showPage(p){document.querySelectorAll('.page').forEach(s=>s.classList.toggle('hidden',s.id!==p));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===p));let names={dashboard:['Dashboard','A simple overview of your jobs and money.'],enquiries:['Customer enquiries','Capture and manage incoming work.'],bookings:['Website enquiries','Read project details and prepare owner-reviewed quotations.'],quotes:['Quotes & invoices','Prepare documents and track balances.'],calendar:['Job calendar','Plan visits, jobs and follow-ups.'],expenses:['Expenses & profit','Track job costs and estimated profit.'],gallery:['Project gallery','Organise before-and-after project photos.'],settings:['Data & backup','Manage local demo data and exports.']};$('pageTitle').textContent=names[p][0];$('pageSub').textContent=names[p][1];$('quickAdd').textContent=p==='bookings'?'+ Add phone enquiry':p==='enquiries'?'+ New enquiry':'+ Add enquiry';}
 document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{showPage(b.dataset.page);if(b.dataset.page==='bookings')loadBookingRequests()}));
 document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.goto)));
 $('quickAdd').onclick=$('newEnquiry').onclick=()=>{showPage('enquiries');$('enquiryForm').classList.remove('hidden');$('enquiryForm').reset();$('enquiryId').value='';$('enquiryFormTitle').textContent='Add customer enquiry';$('ePhotoPreview').innerHTML=''};
@@ -313,4 +314,6 @@ $('syncNow').onclick=()=>saveCloudNow();
 const savedConfig=configValues();$('sbUrl').value=savedConfig.url;$('sbKey').value=savedConfig.key;
 renderAll();setSignedInUI(false);connectAndRestoreSession();
 </script>
+<script src="enquiry-schema.js?v=1"></script>
+<script src="owner-scope.js?v=10"></script>
 </body></html>
