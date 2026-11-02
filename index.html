@@ -2,7 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#172b4d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ATD Hub">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="site.webmanifest?v=1">
+<link rel="apple-touch-icon" sizes="180x180" href="atd-hub-icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="atd-hub-icon-192.png">
 <title>ATD Business Hub | AT DERMYSHI LTD</title>
 <style>
 :root{--navy:#172b4d;--blue:#2f5f9f;--bg:#f4f6fa;--ink:#1c2430;--muted:#687386;--line:#e1e6ee;--white:#fff;--green:#18794e;--amber:#9a6700}
@@ -18,15 +26,30 @@ main{padding:24px;min-width:0}.topline{display:flex;justify-content:space-betwee
 footer{padding:18px 22px;color:var(--muted);font-size:11px;text-align:center}hr{border:0;border-top:1px solid var(--line)}
 @media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.twocol{grid-template-columns:1fr}.layout{grid-template-columns:1fr}nav{display:flex;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:8px;gap:4px}nav button{white-space:nowrap;width:auto;margin:0;padding:10px}.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}main{padding:16px}}
 @media(max-width:520px){.grid{gap:8px}.card{padding:13px}.metric{font-size:21px}.fieldgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.gallery{grid-template-columns:1fr}h1{font-size:22px}}
+
+/* Private home-screen app guidance; no offline customer-data cache. */
+.owner-install-guide{max-width:1320px;margin:16px auto;padding:0 22px;color:var(--ink);font-size:15px;line-height:1.6}
+.owner-install-guide summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:700;color:var(--navy)}
+.owner-install-guide>div{background:white;border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin-top:8px}
+.owner-install-guide ol{margin:0;padding-left:22px}.owner-install-guide li{margin:7px 0}.owner-install-guide p{margin:12px 0 0;color:var(--muted)}
+#connectionSettings{margin:18px 0}#connectionSettings>summary{cursor:pointer;font-size:14px;color:var(--muted);min-height:44px;display:flex;align-items:center}
+@media(display-mode:standalone){.owner-install-guide{display:none}body{padding-bottom:env(safe-area-inset-bottom)}header{padding-top:max(18px,env(safe-area-inset-top))}}
+
+.owner-push-panel{max-width:1320px;margin:18px auto 0;padding:18px 22px;border:1px solid var(--line);border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.owner-push-panel[hidden]{display:none}.owner-push-panel h2{font-size:18px;margin:0 0 6px}.owner-push-panel p{margin:0;max-width:780px;color:var(--muted);font-size:14px;line-height:1.6}.owner-push-panel button{flex-shrink:0;min-height:44px}
+@media(max-width:700px){.owner-push-panel{margin:12px;flex-direction:column;align-items:stretch;padding:16px}.owner-push-panel button{align-self:flex-start}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="stylesheet" href="owner-scope.css?v=10">
 </head>
 <body>
+<details class="owner-install-guide"><summary>Keep ATD on your iPhone</summary><div><ol><li>Open this dashboard in Safari.</li><li>Tap Share, then Add to Home Screen.</li><li>Keep Open as Web App switched on if shown, then tap Add.</li><li>Open the ATD Hub icon and sign in with your existing ATD account.</li></ol><p>An internet connection is needed to load and sync your records.</p></div></details>
 
 <section id="authGate" style="max-width:680px;margin:32px auto;padding:20px">
   <div class="card">
-    <h1 style="margin-bottom:8px">ATD Business Hub — Cloud setup</h1>
+    <h1 style="margin-bottom:8px">ATD Business Hub</h1>
+    <p class="muted">Sign in to your private ATD workspace.</p>
+    <details id="connectionSettings"><summary>Connection settings</summary>
     <p class="muted">Connect this app to your Supabase project. Your Project URL and publishable key are intended for browser use; never enter a secret/service-role key here.</p>
     <div class="fieldgrid" style="margin:18px 0">
       <div class="field full"><label>Supabase Project / API URL</label><input id="sbUrl" placeholder="https://your-project.supabase.co" autocomplete="url"></div>
@@ -35,11 +58,12 @@ footer{padding:18px 22px;color:var(--muted);font-size:11px;text-align:center}hr{
     <div class="actions"><button class="btn" id="saveConnect">Save connection</button><button class="btn secondary" id="testConnect">Check connection</button></div>
     <div id="connectStatus" class="muted" style="margin-top:10px"></div>
     <hr style="border:0;border-top:1px solid var(--line);margin:22px 0">
-    <h2>Sign in or create your account</h2>
+    </details>
+    <h2>Sign in</h2>
     <p class="muted">Use the same account on your Mac and iPhone to access your shared records.</p>
     <div class="fieldgrid">
       <div class="field full"><label>Email</label><input id="authEmail" type="email" autocomplete="email" required></div>
-      <div class="field full"><label>Password (at least 6 characters)</label><input id="authPassword" type="password" autocomplete="current-password" required minlength="6"></div>
+      <div class="field full"><label>Password</label><input id="authPassword" type="password" autocomplete="current-password" required minlength="6"></div>
     </div>
     <div class="actions" style="margin-top:12px"><button class="btn" id="signInBtn">Sign in</button><button class="btn secondary" id="signUpBtn">Create account</button><button class="btn secondary" id="forgotPasswordBtn" type="button">Forgot password?</button></div>
     <div id="authStatus" class="muted" style="margin-top:10px"></div>
@@ -51,11 +75,12 @@ footer{padding:18px 22px;color:var(--muted);font-size:11px;text-align:center}hr{
       <div id="resetStatus" class="muted" style="margin-top:10px"></div>
     </div>
   </div>
-  <p class="muted" style="text-align:center">Cloud sync is not enabled until you sign in. Do not use real customer data until you have tested the setup and reviewed your privacy/security requirements.</p>
+  <p class="muted" style="text-align:center">Your saved ATD records will load after you sign in.</p>
 </section>
 
 <div id="appShell" class="hidden">
 <header><div><div class="brand">ATD BUSINESS HUB</div><div class="sub">Painting, decorating & refurbishment · Mob: 07557954457 · tdermyshi88@gmail.com</div><div class="sub">94 Lausanne Road, London N8 0HP · Company No. 16124001</div></div><span class="demo" id="cloudBadge">NOT CONNECTED</span></header>
+<section id="ownerNotifications" class="owner-push-panel" hidden aria-labelledby="ownerPushTitle"><div><h2 id="ownerPushTitle">New enquiry alerts</h2><p id="ownerPushStatus" role="status">Checking phone alerts…</p></div><button type="button" class="btn" id="ownerPushToggle" disabled>Turn on notifications</button></section>
 <div class="layout">
 <nav id="nav">
 <button class="active" data-page="dashboard">▦ Dashboard</button>
@@ -180,8 +205,15 @@ function mergeRemote(remote){const local=state;state={enquiries:Array.isArray(re
 function showConnectStatus(msg){$('connectStatus').textContent=msg}
 function showAuthStatus(msg){$('authStatus').textContent=msg}
 function showSyncStatus(msg){const el=$('syncStatus');if(el)el.textContent=msg}
-function setSignedInUI(signedIn){$('authGate').classList.toggle('hidden',signedIn);$('appShell').classList.toggle('hidden',!signedIn);$('cloudBadge').textContent=signedIn?'CLOUD CONNECTED':'NOT CONNECTED';$('cloudBadge').style.background=signedIn?'#b8f1ce':'#f5c451';$('cloudBadge').style.color=signedIn?'#104b2c':'#382800';$('notice').innerHTML=signedIn?'<strong>Cloud sync enabled:</strong> Business records sync for this signed-in account. Project photos remain local to each device and do not sync yet.':'<strong>Cloud sync status:</strong> Sign in to sync business records.'}
-function configValues(){return {url:localStorage.getItem('atd_sb_url')||'',key:localStorage.getItem('atd_sb_key')||''}}
+function setSignedInUI(signedIn){$('authGate').classList.toggle('hidden',signedIn);$('appShell').classList.toggle('hidden',!signedIn);$('cloudBadge').textContent=signedIn?'CLOUD CONNECTED':'NOT CONNECTED';$('cloudBadge').style.background=signedIn?'#b8f1ce':'#f5c451';$('cloudBadge').style.color=signedIn?'#104b2c':'#382800';$('notice').innerHTML=signedIn?'<strong>Cloud sync enabled:</strong> Business records sync for this signed-in account. Project photos remain local to each device and do not sync yet.':'<strong>Cloud sync status:</strong> Sign in to sync business records.';window.dispatchEvent(new CustomEvent('atd:session-changed'));}
+const ATD_PROJECT_URL='https://ujopvetvzfxgcxrphonx.supabase.co';
+const ATD_PUBLIC_KEY='sb_publishable_bfmHVxxrF4psQVJ-aahaaQ_DsEutly9';
+function configValues(){
+ const storedUrl=(localStorage.getItem('atd_sb_url')||'').trim().replace(/\/+$/,''),storedKey=(localStorage.getItem('atd_sb_key')||'').trim();
+ // Never connect this ATD dashboard to another business's saved project.
+ if(storedUrl&&storedUrl!==ATD_PROJECT_URL)return {url:'',key:''};
+ return {url:ATD_PROJECT_URL,key:storedUrl===ATD_PROJECT_URL&&storedKey?storedKey:ATD_PUBLIC_KEY};
+}
 function initSupabase(){const c=configValues();if(!c.url||!c.key){supabaseClient=null;return false}try{supabaseClient=window.supabase.createClient(c.url.trim(),c.key.trim());supabaseClient.auth.onAuthStateChange((event,session)=>{if(event==='PASSWORD_RECOVERY'){$('resetPasswordBox').classList.remove('hidden');$('resetStatus').textContent='Choose a new password below.';}});return true}catch(e){supabaseClient=null;return false}}
 async function connectAndRestoreSession(){if(!initSupabase()){setSignedInUI(false);return}try{const {data:{session}}=await supabaseClient.auth.getSession();if(session)await activateSession(session.user);else setSignedInUI(false)}catch(e){showConnectStatus('Could not connect: '+e.message)}}
 async function activateSession(user){currentUser=user;setSignedInUI(true);showSyncStatus('Signed in as '+user.email+'. Loading cloud records…');try{const {data,error}=await supabaseClient.from('atd_business_data').select('data').eq('user_id',user.id).maybeSingle();if(error)throw error;if(data&&data.data){isLoadingCloud=true;mergeRemote(data.data);isLoadingCloud=false;cloudReady=true;showSyncStatus('Cloud records loaded. Changes will sync automatically. Photos remain local.')}else{const hasLocal=Object.values(state).some(a=>a.length);if(hasLocal){if(confirm('No cloud record exists yet. Upload the business records currently on this device to your account?')){cloudReady=true;await saveCloudNow()}else{cloudReady=false;showSyncStatus('Your existing local records were kept unchanged. Export a backup before choosing how to move them to the cloud.');return}}else{isLoadingCloud=true;state={enquiries:[],quotes:[],calendar:[],expenses:[],gallery:[]};for(const k of Object.keys(keys))write(k,state[k]);renderAll();isLoadingCloud=false;cloudReady=true;await saveCloudNow()}}}catch(e){cloudReady=false;showSyncStatus('Cloud load failed: '+e.message+' — check that the SQL table and policies were created.')} }
@@ -303,7 +335,7 @@ function exportData(){let blob=new Blob([JSON.stringify({app:'ATD Business Hub',
 $('exportBtn').onclick=$('exportBtn2').onclick=exportData;
 $('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let d=JSON.parse(await f.text());for(let k of Object.keys(keys))if(Array.isArray(d[k]))state[k]=d[k];for(let k of Object.keys(keys))write(k,state[k]);renderAll();if(cloudReady)scheduleCloudSave();alert('Backup imported.')}catch{alert('That file could not be read as an ATD Business Hub backup.')}e.target.value=''};
 $('clearData').onclick=()=>{if(confirm('This permanently clears all ATD Business Hub data stored in this browser. Export a backup first if needed.')){for(let k of Object.keys(keys)){state[k]=[];localStorage.removeItem(keys[k])}renderAll();if(cloudReady)scheduleCloudSave()}};
-$('saveConnect').onclick=()=>{const url=$('sbUrl').value.trim(),key=$('sbKey').value.trim();if(!url.startsWith('https://')||!key){showConnectStatus('Enter the full HTTPS API URL and publishable key.');return}localStorage.setItem('atd_sb_url',url);localStorage.setItem('atd_sb_key',key);if(initSupabase()){showConnectStatus('Connection details saved in this browser. Now sign in or create your account.')}else showConnectStatus('Could not initialise Supabase. Check the URL and publishable key.')};
+$('saveConnect').onclick=()=>{const url=$('sbUrl').value.trim(),key=$('sbKey').value.trim();if(url.replace(/\/+$/,'')!==ATD_PROJECT_URL||!key){showConnectStatus('Use the ATD project address and its publishable key. Other project connections are not allowed in this dashboard.');return}localStorage.setItem('atd_sb_url',url);localStorage.setItem('atd_sb_key',key);if(initSupabase()){showConnectStatus('Connection details saved in this browser. Now sign in or create your account.')}else showConnectStatus('Could not initialise Supabase. Check the URL and publishable key.')};
 $('testConnect').onclick=async()=>{if(!initSupabase()){showConnectStatus('Enter and save your API URL and publishable key first.');return}try{const {error}=await supabaseClient.auth.getSession();if(error)throw error;showConnectStatus('Supabase client initialized. Sign in to verify database access.')}catch(e){showConnectStatus('Connection check failed: '+e.message)}};
 $('signInBtn').onclick=async()=>{if(!initSupabase()){showAuthStatus('First enter and save the API URL and publishable key above.');return}const email=$('authEmail').value.trim(),password=$('authPassword').value;if(!email||!password){showAuthStatus('Enter your email and password.');return}showAuthStatus('Signing in…');const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});if(error){showAuthStatus(error.message);return}showAuthStatus('Signed in. Loading your records…');await activateSession(data.user)};
 $('forgotPasswordBtn').onclick=async()=>{if(!initSupabase()){showAuthStatus('First enter and save the API URL and publishable key above.');return}const email=$('authEmail').value.trim();if(!email){showAuthStatus('Enter your account email above first.');return}showAuthStatus('Sending password recovery email…');const redirectTo=window.location.origin+window.location.pathname;const {error}=await supabaseClient.auth.resetPasswordForEmail(email,{redirectTo});showAuthStatus(error?'Could not send recovery email: '+error.message:'Recovery email requested. Wait for the email limit to clear if Supabase recently blocked emails, then open the newest link on this website.');};
@@ -311,9 +343,10 @@ $('saveNewPasswordBtn').onclick=async()=>{if(!initSupabase()){ $('resetStatus').
 $('signUpBtn').onclick=async()=>{if(!initSupabase()){showAuthStatus('First enter and save the API URL and publishable key above.');return}const email=$('authEmail').value.trim(),password=$('authPassword').value;if(!email||password.length<6){showAuthStatus('Enter a valid email and a password of at least 6 characters.');return}showAuthStatus('Creating account…');const {data,error}=await supabaseClient.auth.signUp({email,password});if(error){showAuthStatus(error.message);return}if(data.session&&data.user){showAuthStatus('Account created. Loading your records…');await activateSession(data.user)}else{showAuthStatus('Account request created. Check your email for a confirmation link, then return here and sign in.')}};
 $('signOutBtn').onclick=async()=>{if(supabaseClient)await supabaseClient.auth.signOut();currentUser=null;cloudReady=false;setSignedInUI(false);showAuthStatus('Signed out.')};
 $('syncNow').onclick=()=>saveCloudNow();
-const savedConfig=configValues();$('sbUrl').value=savedConfig.url;$('sbKey').value=savedConfig.key;
+const savedConfig=configValues();$('sbUrl').value=savedConfig.url;$('sbKey').value=savedConfig.key;if(!savedConfig.url){$('connectionSettings').open=true;showConnectStatus('This browser has settings for a different project. Enter the ATD connection details to continue.');}
 renderAll();setSignedInUI(false);connectAndRestoreSession();
 </script>
-<script src="enquiry-schema.js?v=1"></script>
+<script src="enquiry-schema.js?v=5"></script>
 <script src="owner-scope.js?v=10"></script>
+<script src="owner-app.js?v=1"></script>
 </body></html>

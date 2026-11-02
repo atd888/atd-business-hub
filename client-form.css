@@ -14,3 +14,6 @@ main{max-width:920px;margin:0 auto;padding:24px 30px 130px}.intro{padding:24px 0
 /* Start with the choices, keeping the introduction compact. */
 .intro{padding:18px 0 16px}.intro .eyebrow{display:none}.intro h1{margin-bottom:10px}.project-choices>legend{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden}
 @media(max-width:600px){.client-header{padding-block:14px}main{padding-top:14px}.intro h1{font-size:32px}.intro p:last-child{font-size:15px}.step-navigation{margin-bottom:16px}.step-head{margin-bottom:20px}.project-choice{padding:14px}.project-choice strong{font-size:16px}.project-choice small{font-size:13px}}
+
+/* The same work checklist treatment across each service. */
+.work-checklist .checks{margin-bottom:14px}.work-help{font-size:15px;margin:0 0 24px}.scope-detail-disclosure{margin-top:4px}.work-checklist fieldset[aria-invalid=true]{outline:2px solid var(--error);outline-offset:7px;border-radius:6px}

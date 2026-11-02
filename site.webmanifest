@@ -1,0 +1,26 @@
+{
+  "id": "/atd-business-hub/",
+  "name": "ATD Business Hub",
+  "short_name": "ATD Hub",
+  "description": "Private ATD business dashboard.",
+  "lang": "en-GB",
+  "start_url": "/atd-business-hub/index.html",
+  "scope": "/atd-business-hub/",
+  "display": "standalone",
+  "theme_color": "#172b4d",
+  "background_color": "#f4f6fa",
+  "icons": [
+    {
+      "src": "./atd-hub-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./atd-hub-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
