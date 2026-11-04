@@ -17,3 +17,14 @@ select{appearance:none;-webkit-appearance:none;display:block;min-width:0;max-wid
 .add-cost-actions{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}.add-cost-actions .btn{min-height:48px}@media(max-width:500px){.add-cost-actions{display:grid;grid-template-columns:1fr}.add-cost-actions .btn{width:100%;text-align:left}}
 
 .atd-priorities,.atd-insights{margin-top:20px;margin-bottom:20px}.workflow-reminder{display:flex;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line);padding:15px 0}.workflow-reminder p{margin:5px 0}.workflow-controls{margin-top:20px;border-top:1px solid var(--line);padding-top:18px}.workflow-controls details{margin-top:16px}.workflow-controls summary{cursor:pointer;font-weight:bold;padding:12px 0}.workflow-controls form{display:grid;gap:12px;margin:15px 0}.workflow-controls label{display:grid;gap:6px}.private-enquiry-photos{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}.private-enquiry-photos img{width:180px;max-width:100%;height:180px;object-fit:cover;border-radius:6px}.private-enquiry-photos p{flex-basis:100%}@media(max-width:600px){.workflow-reminder{flex-direction:column}.workflow-reminder button{align-self:flex-start}.atd-priorities .enquiry-overview{grid-template-columns:1fr}.private-enquiry-photos a{width:calc(50% - 6px)}.private-enquiry-photos img{width:100%;height:150px}}
+
+/* Keep quotation amounts readable; use labelled cards on phones and tablets. */
+#quoteTable th,#quoteTable .pill{white-space:nowrap}#quoteTable table{min-width:1100px}#quoteTable td:nth-child(n+3):nth-child(-n+8){white-space:nowrap}#quoteTable td:nth-child(2){min-width:190px}#quoteTable .actions{min-width:160px}
+@media(max-width:900px){
+#quoteTable .tablewrap{overflow:visible}#quoteTable table,#quoteTable tbody{display:block;min-width:0;width:100%}#quoteTable thead{display:none}
+#quoteTable tr{display:block;border:1px solid var(--line);border-radius:12px;background:#fff;padding:14px;margin-bottom:16px}
+#quoteTable td{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:12px;padding:9px 0;min-width:0;align-items:start;font-size:16px}
+#quoteTable td::before{content:attr(data-label);font-weight:700;color:var(--muted);font-size:14px;white-space:normal}
+#quoteTable .quote-cell{min-width:0;text-align:right}#quoteTable td:nth-child(2){min-width:0;display:block}#quoteTable td:nth-child(2) .quote-cell{text-align:left;margin-top:6px}#quoteTable td:nth-child(2)::before{display:block}
+#quoteTable td:last-child{display:block;border-bottom:0;padding-bottom:0}#quoteTable td:last-child::before{display:none}#quoteTable .actions{min-width:0;display:flex;gap:8px;margin-top:6px}#quoteTable .actions .btn{flex:1;white-space:nowrap;min-height:44px;font-size:16px}
+}

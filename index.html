@@ -40,7 +40,7 @@ footer{padding:18px 22px;color:var(--muted);font-size:11px;text-align:center}hr{
 @media(max-width:700px){.owner-push-panel{margin:12px;flex-direction:column;align-items:stretch;padding:16px}.owner-push-panel button{align-self:flex-start}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link rel="stylesheet" href="owner-scope.css?v=11">
+<link rel="stylesheet" href="owner-scope.css?v=12">
 </head>
 <body>
 <details class="owner-install-guide"><summary>Keep ATD on your iPhone</summary><div><ol><li>Open this dashboard in Safari.</li><li>Tap Share, then Add to Home Screen.</li><li>Keep Open as Web App switched on if shown, then tap Add.</li><li>Open the ATD Hub icon and sign in with your existing ATD account.</li></ol><p>An internet connection is needed to load and sync your records.</p></div></details>
@@ -238,7 +238,12 @@ let list=state.enquiries.filter(x=>[x.name,x.address,x.service,x.phone].join(' '
 $('enquiryTable').innerHTML=table(['Customer / address','Service','Date','Status','Actions'],list.map(x=>`<tr><td><strong>${esc(x.name)}</strong><div class="muted">${esc(x.address)}</div><div class="muted">${esc(x.phone||'')} ${esc(x.email||'')}</div></td><td>${esc(x.service)}</td><td>${esc(x.date||'—')}</td><td>${statusPill(x.status)}</td><td><div class="actions"><button class="btn secondary small" onclick="editEnquiry('${x.id}')">Edit</button><button class="btn secondary small" onclick="makeQuote('${x.id}')">Quote</button><button class="btn danger small" onclick="deleteItem('enquiries','${x.id}')">Delete</button></div></td></tr>`));
 }
 function renderQuotes(){
-$('quoteTable').innerHTML=table(['Document','Customer / job','Total','Deposit (30% default)','During work (40% default)','Completion','Paid','Balance','Status','Actions'],state.quotes.slice().reverse().map(x=>{let total=+x.total||0,dep=Number.isFinite(+x.deposit)?+x.deposit:30,mid=Number.isFinite(+x.midPercent)?+x.midPercent:40,completion=100-dep-mid;return `<tr><td><strong>${esc(x.type)}</strong><div class="muted">${esc(x.due||'No due date')}</div></td><td>${esc(x.customer)}<div class="muted">${esc(x.job||'')}</div></td><td>${money(total)}</td><td>${money(total*dep/100)}<div class="muted">${dep}%</div></td><td>${money(total*mid/100)}<div class="muted">${mid}%</div></td><td>${money(total*completion/100)}<div class="muted">${completion}%</div></td><td>${money(x.paid)}</td><td><strong>${money(Math.max(0,total-(+x.paid||0)))}</strong></td><td>${statusPill(x.status)}</td><td><div class="actions"><button class="btn secondary small" onclick="printQuote('${x.id}')">Print</button><button class="btn secondary small" onclick="editQuote('${x.id}')">Edit</button><button class="btn danger small" onclick="deleteItem('quotes','${x.id}')">Delete</button></div></td></tr>`}));
+const headers=['Document','Customer / job','Total','Deposit','During work','Completion','Paid','Balance','Status','Actions'];
+$('quoteTable').innerHTML=table(headers,state.quotes.slice().reverse().map(x=>{
+let total=+x.total||0,dep=Number.isFinite(+x.deposit)?+x.deposit:30,mid=Number.isFinite(+x.midPercent)?+x.midPercent:40,completion=100-dep-mid;
+const cells=[`<strong>${esc(x.type)}</strong><div class="muted">${esc(x.due||'No due date')}</div>`,`${esc(x.customer)}<div class="muted">${esc(x.job||'')}</div>`,money(total),`${money(total*dep/100)}<div class="muted">${dep}%</div>`,`${money(total*mid/100)}<div class="muted">${mid}%</div>`,`${money(total*completion/100)}<div class="muted">${completion}%</div>`,money(x.paid),`<strong>${money(Math.max(0,total-(+x.paid||0)))}</strong>`,statusPill(x.status),`<div class="actions"><button class="btn secondary small" onclick="printQuote('${x.id}')">Print</button><button class="btn secondary small" onclick="editQuote('${x.id}')">Edit</button><button class="btn danger small" onclick="deleteItem('quotes','${x.id}')">Delete</button></div>`];
+return `<tr>${cells.map((content,i)=>`<td data-label="${headers[i]}"><div class="quote-cell">${content}</div></td>`).join('')}</tr>`;
+}));
 }
 function renderCalendar(){$('calendarTable').innerHTML=table(['Date','Event','Customer','Type','Notes','Actions'],state.calendar.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(x=>`<tr><td>${esc(x.date)}</td><td><strong>${esc(x.title)}</strong></td><td>${esc(x.customer||'—')}</td><td>${esc(x.type)}</td><td>${esc(x.notes||'')}</td><td><button class="btn danger small" onclick="deleteItem('calendar','${x.id}')">Delete</button></td></tr>`))}
 function renderExpenses(){
