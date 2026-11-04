@@ -40,7 +40,7 @@ footer{padding:18px 22px;color:var(--muted);font-size:11px;text-align:center}hr{
 @media(max-width:700px){.owner-push-panel{margin:12px;flex-direction:column;align-items:stretch;padding:16px}.owner-push-panel button{align-self:flex-start}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link rel="stylesheet" href="owner-scope.css?v=10">
+<link rel="stylesheet" href="owner-scope.css?v=11">
 </head>
 <body>
 <details class="owner-install-guide"><summary>Keep ATD on your iPhone</summary><div><ol><li>Open this dashboard in Safari.</li><li>Tap Share, then Add to Home Screen.</li><li>Keep Open as Web App switched on if shown, then tap Add.</li><li>Open the ATD Hub icon and sign in with your existing ATD account.</li></ol><p>An internet connection is needed to load and sync your records.</p></div></details>
@@ -93,7 +93,7 @@ footer{padding:18px 22px;color:var(--muted);font-size:11px;text-align:center}hr{
 <button data-page="settings">⚙ Data & backup</button>
 </nav>
 <main>
-<div id="notice" class="notice"><strong>Cloud sync status:</strong> Sign in to sync business records. Photos remain local to each device for now. Online payments and emailed documents are not connected.</div>
+<div id="notice" class="notice"><strong>Cloud sync status:</strong> Sign in to sync business records. Manually added dashboard photos remain local to each device. Online payments and emailed documents are not connected.</div>
 <div class="topline"><div><h1 id="pageTitle">Dashboard</h1><div class="muted" id="pageSub">A simple overview of your jobs and money.</div></div><div class="actions"><button class="btn secondary" id="exportBtn">Export backup</button><button class="btn" id="quickAdd">+ Add enquiry</button></div></div>
 <section id="dashboard" class="page">
 <div class="grid">
@@ -205,7 +205,7 @@ function mergeRemote(remote){const local=state;state={enquiries:Array.isArray(re
 function showConnectStatus(msg){$('connectStatus').textContent=msg}
 function showAuthStatus(msg){$('authStatus').textContent=msg}
 function showSyncStatus(msg){const el=$('syncStatus');if(el)el.textContent=msg}
-function setSignedInUI(signedIn){$('authGate').classList.toggle('hidden',signedIn);$('appShell').classList.toggle('hidden',!signedIn);$('cloudBadge').textContent=signedIn?'CLOUD CONNECTED':'NOT CONNECTED';$('cloudBadge').style.background=signedIn?'#b8f1ce':'#f5c451';$('cloudBadge').style.color=signedIn?'#104b2c':'#382800';$('notice').innerHTML=signedIn?'<strong>Cloud sync enabled:</strong> Business records sync for this signed-in account. Project photos remain local to each device and do not sync yet.':'<strong>Cloud sync status:</strong> Sign in to sync business records.';window.dispatchEvent(new CustomEvent('atd:session-changed'));}
+function setSignedInUI(signedIn){$('authGate').classList.toggle('hidden',signedIn);$('appShell').classList.toggle('hidden',!signedIn);$('cloudBadge').textContent=signedIn?'CLOUD CONNECTED':'NOT CONNECTED';$('cloudBadge').style.background=signedIn?'#b8f1ce':'#f5c451';$('cloudBadge').style.color=signedIn?'#104b2c':'#382800';$('notice').innerHTML=signedIn?'<strong>Cloud sync enabled:</strong> Business records sync for this signed-in account. Photos attached to confirmed website enquiries are available through View attached photos. Photos added manually in this dashboard remain local to each device.':'<strong>Cloud sync status:</strong> Sign in to sync business records.';window.dispatchEvent(new CustomEvent('atd:session-changed'));}
 const ATD_PROJECT_URL='https://ujopvetvzfxgcxrphonx.supabase.co';
 const ATD_PUBLIC_KEY='sb_publishable_bfmHVxxrF4psQVJ-aahaaQ_DsEutly9';
 function configValues(){
@@ -218,7 +218,7 @@ function initSupabase(){const c=configValues();if(!c.url||!c.key){supabaseClient
 async function connectAndRestoreSession(){if(!initSupabase()){setSignedInUI(false);return}try{const {data:{session}}=await supabaseClient.auth.getSession();if(session)await activateSession(session.user);else setSignedInUI(false)}catch(e){showConnectStatus('Could not connect: '+e.message)}}
 async function activateSession(user){currentUser=user;setSignedInUI(true);showSyncStatus('Signed in as '+user.email+'. Loading cloud records…');try{const {data,error}=await supabaseClient.from('atd_business_data').select('data').eq('user_id',user.id).maybeSingle();if(error)throw error;if(data&&data.data){isLoadingCloud=true;mergeRemote(data.data);isLoadingCloud=false;cloudReady=true;showSyncStatus('Cloud records loaded. Changes will sync automatically. Photos remain local.')}else{const hasLocal=Object.values(state).some(a=>a.length);if(hasLocal){if(confirm('No cloud record exists yet. Upload the business records currently on this device to your account?')){cloudReady=true;await saveCloudNow()}else{cloudReady=false;showSyncStatus('Your existing local records were kept unchanged. Export a backup before choosing how to move them to the cloud.');return}}else{isLoadingCloud=true;state={enquiries:[],quotes:[],calendar:[],expenses:[],gallery:[]};for(const k of Object.keys(keys))write(k,state[k]);renderAll();isLoadingCloud=false;cloudReady=true;await saveCloudNow()}}}catch(e){cloudReady=false;showSyncStatus('Cloud load failed: '+e.message+' — check that the SQL table and policies were created.')} }
 function scheduleCloudSave(){clearTimeout(saveTimer);showSyncStatus('Changes saved on this device; cloud sync pending…');saveTimer=setTimeout(()=>saveCloudNow(),900)}
-async function saveCloudNow(){if(!supabaseClient||!currentUser||!cloudReady)return;try{const {error}=await supabaseClient.from('atd_business_data').upsert({user_id:currentUser.id,data:localSnapshot(),updated_at:new Date().toISOString()},{onConflict:'user_id'});if(error)throw error;showSyncStatus('Synced to cloud at '+new Date().toLocaleTimeString()+'. Photos remain local.')}catch(e){showSyncStatus('Cloud sync failed: '+e.message+' — your local browser copy is still saved.');console.error(e)}}
+async function saveCloudNow(){if(!supabaseClient||!currentUser||!cloudReady)return;try{const {error}=await supabaseClient.from('atd_business_data').upsert({user_id:currentUser.id,data:localSnapshot(),updated_at:new Date().toISOString()},{onConflict:'user_id'});if(error)throw error;showSyncStatus('Synced to cloud at '+new Date().toLocaleTimeString()+'. Manually added dashboard photos remain local.')}catch(e){showSyncStatus('Cloud sync failed: '+e.message+' — your local browser copy is still saved.');console.error(e)}}
 
 function table(headers,rows,empty='Nothing here yet.'){if(!rows.length)return `<div class="empty">${empty}</div>`;return `<div class="tablewrap"><table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`}
 function statusPill(s){let cls=['Paid','Approved','Won'].includes(s)?'green':['New','Sent','Site visit booked','Part paid'].includes(s)?'amber':'';return `<span class="pill ${cls}">${esc(s)}</span>`}
@@ -349,4 +349,5 @@ renderAll();setSignedInUI(false);connectAndRestoreSession();
 <script src="enquiry-schema.js?v=5"></script>
 <script src="owner-scope.js?v=10"></script>
 <script src="owner-app.js?v=1"></script>
+<script src="owner-workflow.js?v=1"></script>
 </body></html>

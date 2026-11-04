@@ -17,3 +17,5 @@ main{max-width:920px;margin:0 auto;padding:24px 30px 130px}.intro{padding:24px 0
 
 /* The same work checklist treatment across each service. */
 .work-checklist .checks{margin-bottom:14px}.work-help{font-size:15px;margin:0 0 24px}.scope-detail-disclosure{margin-top:4px}.work-checklist fieldset[aria-invalid=true]{outline:2px solid var(--error);outline-offset:7px;border-radius:6px}
+
+.photo-attachments{margin-top:28px}.photo-attachments h2{font-size:28px}.photo-attachments label{display:block;font-weight:bold}.photo-attachments input{margin:12px 0}.photo-attachments [role=status]{margin-top:16px;overflow-wrap:anywhere}
