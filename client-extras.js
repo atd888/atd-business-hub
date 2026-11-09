@@ -4,7 +4,8 @@
  const enabled=()=>cfg.submissionEnabled===true&&cfg.allowedOrigins?.includes(location.origin);
  const sources=['google','instagram','youtube','facebook','other','direct'];
  function source(){
-  const p=new URLSearchParams(location.search),given=(p.get('utm_source')||p.get('source')||'').toLowerCase();
+  const p=new URLSearchParams(location.search),raw=(p.get('utm_source')||p.get('source')||'').trim().toLowerCase();
+  const given=raw==='ig'?'instagram':raw;
   if(sources.includes(given))return given;
   let host='';try{host=new URL(document.referrer).hostname;}catch{}
   for(const [domain,name] of [['google.com','google'],['google.co.uk','google'],['instagram.com','instagram'],['youtube.com','youtube'],['youtu.be','youtube'],['facebook.com','facebook']])if(host===domain||host.endsWith('.'+domain))return name;
