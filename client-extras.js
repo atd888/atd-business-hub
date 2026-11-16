@@ -2,13 +2,13 @@
 (()=>{'use strict';
  const cfg=window.ATD_CLIENT_CONFIG||{},endpoint='https://ujopvetvzfxgcxrphonx.supabase.co/functions/v1/atd-enquiry-tools';
  const enabled=()=>cfg.submissionEnabled===true&&cfg.allowedOrigins?.includes(location.origin);
- const sources=['google','instagram','youtube','facebook','other','direct'];
+ const sources=['google','instagram','youtube','facebook','chatgpt','other','direct'];
  function source(){
   const p=new URLSearchParams(location.search),raw=(p.get('utm_source')||p.get('source')||'').trim().toLowerCase();
-  const given=raw==='ig'?'instagram':raw;
+  const given=raw==='ig'?'instagram':['chatgpt.com','chat.openai.com'].includes(raw)?'chatgpt':raw;
   if(sources.includes(given))return given;
   let host='';try{host=new URL(document.referrer).hostname;}catch{}
-  for(const [domain,name] of [['google.com','google'],['google.co.uk','google'],['instagram.com','instagram'],['youtube.com','youtube'],['youtu.be','youtube'],['facebook.com','facebook']])if(host===domain||host.endsWith('.'+domain))return name;
+  for(const [domain,name] of [['google.com','google'],['google.co.uk','google'],['instagram.com','instagram'],['youtube.com','youtube'],['youtu.be','youtube'],['facebook.com','facebook'],['chatgpt.com','chatgpt'],['chat.openai.com','chatgpt']])if(host===domain||host.endsWith('.'+domain))return name;
   return host&&host!==location.hostname?'other':'direct';
  }
  const channel=source();window.ATDAttribution={source:channel};
