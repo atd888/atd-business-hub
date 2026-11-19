@@ -205,7 +205,7 @@ function mergeRemote(remote){const local=state;state={enquiries:Array.isArray(re
 function showConnectStatus(msg){$('connectStatus').textContent=msg}
 function showAuthStatus(msg){$('authStatus').textContent=msg}
 function showSyncStatus(msg){const el=$('syncStatus');if(el)el.textContent=msg}
-function setSignedInUI(signedIn){$('authGate').classList.toggle('hidden',signedIn);$('appShell').classList.toggle('hidden',!signedIn);$('cloudBadge').textContent=signedIn?'CLOUD CONNECTED':'NOT CONNECTED';$('cloudBadge').style.background=signedIn?'#b8f1ce':'#f5c451';$('cloudBadge').style.color=signedIn?'#104b2c':'#382800';$('notice').innerHTML=signedIn?'<strong>Cloud sync enabled:</strong> Business records sync for this signed-in account. Photos attached to confirmed website enquiries are available through View attached photos. Photos added manually in this dashboard remain local to each device.':'<strong>Cloud sync status:</strong> Sign in to sync business records.';window.dispatchEvent(new CustomEvent('atd:session-changed'));}
+function setSignedInUI(signedIn){$('authGate').classList.toggle('hidden',signedIn);$('appShell').classList.toggle('hidden',!signedIn);$('cloudBadge').textContent=signedIn?'CLOUD CONNECTED':'NOT CONNECTED';$('cloudBadge').style.background=signedIn?'#b8f1ce':'#f5c451';$('cloudBadge').style.color=signedIn?'#104b2c':'#382800';$('notice').innerHTML=signedIn?'<strong>Cloud sync enabled:</strong> Business records sync for this signed-in account. Photos attached to saved website enquiries are available through View attached photos. Photos added manually in this dashboard remain local to each device.':'<strong>Cloud sync status:</strong> Sign in to sync business records.';window.dispatchEvent(new CustomEvent('atd:session-changed'));}
 const ATD_PROJECT_URL='https://ujopvetvzfxgcxrphonx.supabase.co';
 const ATD_PUBLIC_KEY='sb_publishable_bfmHVxxrF4psQVJ-aahaaQ_DsEutly9';
 function configValues(){
@@ -352,7 +352,7 @@ const savedConfig=configValues();$('sbUrl').value=savedConfig.url;$('sbKey').val
 renderAll();setSignedInUI(false);connectAndRestoreSession();
 </script>
 <script src="enquiry-schema.js?v=5"></script>
-<script src="owner-scope.js?v=10"></script>
+<script src="owner-scope.js?v=11"></script>
 <script src="owner-app.js?v=1"></script>
 <script src="owner-workflow.js?v=2"></script>
 </body></html>

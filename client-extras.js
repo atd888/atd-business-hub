@@ -20,7 +20,7 @@
  async function prepare(token){
   if(!enabled()||!/^[a-f0-9]{64}$/i.test(token))return;
   photoToken=token;
-  if(!host){host=document.createElement('section');host.className='panel photo-attachments';host.innerHTML='<h2>Add project photos</h2><p>Optional: attach up to four photos to your email-confirmed enquiry. Only ATD can view them. Avoid people, documents and personal information unrelated to the work.</p><label for="projectPhotoFiles">Choose project photos</label><input id="projectPhotoFiles" type="file" accept="image/*" multiple><p class="small-print">Photos are resized before upload. Keep your originals. If a format cannot be opened, try JPEG or send it on WhatsApp.</p><button id="uploadProjectPhotos" class="button" type="button">Attach selected photos</button><p id="photoUploadStatus" role="status" aria-live="polite"></p>';document.querySelector('main').append(host);host.querySelector('button').addEventListener('click',upload);}
+  if(!host){host=document.createElement('section');host.className='panel photo-attachments';host.innerHTML='<h2>Add project photos</h2><p>Optional: attach up to four photos to your saved enquiry. Only ATD can view them. Avoid people, documents and personal information unrelated to the work.</p><label for="projectPhotoFiles">Choose project photos</label><input id="projectPhotoFiles" type="file" accept="image/*" multiple><p class="small-print">Photos are resized before upload. Keep your originals. If a format cannot be opened, try JPEG or send it on WhatsApp.</p><button id="uploadProjectPhotos" class="button" type="button">Attach selected photos</button><p id="photoUploadStatus" role="status" aria-live="polite"></p>';document.querySelector('main').append(host);host.querySelector('button').addEventListener('click',upload);}
   try{const data=await call({action:'photo_status',token});host.hidden=false;host.querySelector('[role=status]').textContent=data.count+' of 4 photos attached.';host.querySelector('button').disabled=data.count>=4;host.dataset.count=data.count;}
   catch(error){host.hidden=true;}
  }
@@ -43,5 +43,6 @@
   finally{busy=false;button.disabled=Number(host.dataset.count||0)>=4;}
  }
  window.addEventListener('atd:email-confirmed',event=>prepare(event.detail.token));
+ window.addEventListener('atd:enquiry-saved',event=>prepare(event.detail.token));
  if(params.get('token'))prepare(params.get('token'));
 })();
